@@ -5,17 +5,21 @@ import com.theironyard.entities.User;
 import com.theironyard.services.UserRepository;
 import com.theironyard.utilities.PasswordStorage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Scanner;
 
-@Controller
+@RestController
 public class RehearsalFinderController {
 
     @Autowired
@@ -25,27 +29,27 @@ public class RehearsalFinderController {
 //    RehearsalSpaceRepository spaces;
 
 
-    @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String home(HttpSession session, Model model){
-        String userName = (String) session.getAttribute("userName");
-        User user = users.findFirstByFirstName(userName);
-        if (user != null) {
-            model.addAttribute("user", user);
-        }
-        return "home";
+    @RequestMapping(path = "/hello", method = RequestMethod.GET)
+    public String home(){
+        return "hello";
     }
 
     @RequestMapping(path = "/sign-up", method = RequestMethod.GET)
-    public String loadSignUpPage(Model model) {
+    public String loadSignUpPage() {
         return "sign-up";
     }
 
     @RequestMapping(path = "/add-user", method = RequestMethod.POST)
-    public String signUp(HttpSession session, String firstName, String lastName,String password,
-                         String email, Date birthday) throws PasswordStorage.CannotPerformOperationException {
-        User user = new User(firstName, lastName, password, email, birthday);
-        users.save(user);
-        return "redirect:/";
+    public String signUp(@RequestBody String body, HttpServletResponse response)
+            throws PasswordStorage.CannotPerformOperationException {
+//        User user = new User(firstName, lastName, password, email, birthday);
+//        users.save(user);
+        response.setContentType("application/json");
+        response.setStatus(211);
+        System.out.println(body);
+        JsonParser p;
+
+        return "{\"this\":\"should be json\"}";
     }
 
 
