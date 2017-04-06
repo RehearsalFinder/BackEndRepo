@@ -57,12 +57,10 @@ public class RehearsalFinderController {
         String email = jsonUser.getEmail();
         User user = users.findFirstByEmail(email);
         if (user != null){
-            if (!PasswordStorage.verifyPassword(password, )) {
-                throw new Exception("Wrong password!");
+            if (!user.verifyPassword(password)) {
+                throw new Exception("Wrong credentials!");
             }
         }
-        System.out.println("Email address in db is: " + email);
-        System.out.println("Password from form is: " + password);
         response.setStatus(201);
         return user;
     }
