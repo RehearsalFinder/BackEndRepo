@@ -1,10 +1,11 @@
 package com.theironyard.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.theironyard.utilities.PasswordStorage;
 
 import javax.persistence.*;
 import java.io.File;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
@@ -26,8 +27,10 @@ public class User {
     @Column
     private String email;
 
+
     @Column
-    private Date birthday;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private String birthday;
 
 //    @Column
 //    public File photo;
@@ -64,15 +67,15 @@ public class User {
         this.email = email;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
-    public User(String firstName, String lastName, String password, String email, Date birthday)
+    public User(String firstName, String lastName, String password, String email, String birthday)
             throws PasswordStorage.CannotPerformOperationException {
         this.firstName = firstName;
         this.lastName = lastName;
