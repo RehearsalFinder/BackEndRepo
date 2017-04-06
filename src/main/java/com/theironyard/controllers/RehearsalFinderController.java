@@ -1,8 +1,10 @@
 package com.theironyard.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.theironyard.entities.RehearsalSpace;
 import com.theironyard.entities.User;
 //import com.theironyard.services.RehearsalSpaceRepository;
+import com.theironyard.services.RehearsalSpaceRepository;
 import com.theironyard.services.UserRepository;
 import com.theironyard.utilities.JsonUser;
 import com.theironyard.utilities.PasswordStorage;
@@ -22,19 +24,9 @@ public class RehearsalFinderController {
     @Autowired
     UserRepository users;
 
-//    @Autowired
-//    RehearsalSpaceRepository spaces;
+    @Autowired
+    RehearsalSpaceRepository spaces;
 
-
-    @RequestMapping(path = "/hello", method = RequestMethod.GET)
-    public String home(){
-        return "hello";
-    }
-
-    @RequestMapping(path = "/sign-up", method = RequestMethod.GET)
-    public String loadSignUpPage() {
-        return "sign-up";
-    }
 
     @RequestMapping(path = "/add-user", method = RequestMethod.POST)
     public String signUp(@RequestBody String body, HttpServletResponse response, HttpSession session)
@@ -63,6 +55,16 @@ public class RehearsalFinderController {
         }
         response.setStatus(201);
         return user;
+    }
+
+    @RequestMapping(path = "/add-space", method = RequestMethod.POST)
+    public String addSpace(@RequestBody String body, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        ObjectMapper mapper = new ObjectMapper();
+        RehearsalSpace space = mapper.readValue(body, RehearsalSpace.class);
+        spaces.save(space);
+        response.setStatus(201);
+        return "New rehearsal space added to database";
     }
 
 }

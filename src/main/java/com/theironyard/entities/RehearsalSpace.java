@@ -1,11 +1,11 @@
-//package com.theironyard.entities;
-//
-//import javax.persistence.Entity;
-//import javax.persistence.Table;
-//
-//@Entity
-//@Table(name = "spaces")
-//public class RehearsalSpace {
-//
-//
-//}
+package com.theironyard.entities;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "spaces")
+public class RehearsalSpace {
+
+
+}
