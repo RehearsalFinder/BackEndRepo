@@ -65,6 +65,4 @@ public class RehearsalFinderController {
         return user;
     }
 
-
-
 }
