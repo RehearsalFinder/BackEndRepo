@@ -1,13 +1,10 @@
 package com.theironyard.controllers;
 
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theironyard.entities.User;
 //import com.theironyard.services.RehearsalSpaceRepository;
 import com.theironyard.services.UserRepository;
+import com.theironyard.utilities.JsonUser;
 import com.theironyard.utilities.PasswordStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,16 +37,36 @@ public class RehearsalFinderController {
     }
 
     @RequestMapping(path = "/add-user", method = RequestMethod.POST)
-    public String signUp(@RequestBody String body, HttpServletResponse response)
+    public String signUp(@RequestBody String body, HttpServletResponse response, HttpSession session)
             throws PasswordStorage.CannotPerformOperationException, IOException {
         response.setContentType("application/json");
-        response.setStatus(211);
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(body, User.class);
-        System.out.println(user.getBirthday());
         users.save(user);
+        response.setStatus(201);
         return "New user added to database";
     }
+
+    @RequestMapping(path = "/login", method = RequestMethod.POST)
+    public User login(@RequestBody String body, HttpServletResponse response, HttpSession session)
+            throws Exception {
+        response.setContentType("application/json");
+        ObjectMapper mapper = new ObjectMapper();
+        JsonUser jsonUser = mapper.readValue(body, JsonUser.class);
+        String password = jsonUser.getPassword();
+        String email = jsonUser.getEmail();
+        User user = users.findFirstByEmail(email);
+        if (user != null){
+            if (!PasswordStorage.verifyPassword(password, )) {
+                throw new Exception("Wrong password!");
+            }
+        }
+        System.out.println("Email address in db is: " + email);
+        System.out.println("Password from form is: " + password);
+        response.setStatus(201);
+        return user;
+    }
+
 
 
 }
