@@ -29,12 +29,16 @@ public class RehearsalFinderController {
 
     @RequestMapping(path = "/add-user", method = RequestMethod.POST)
     public String signUp(@RequestBody String body, HttpServletResponse response, HttpSession session)
-            throws PasswordStorage.CannotPerformOperationException, IOException {
+            throws Exception {
         response.setContentType("application/json");
         ObjectMapper mapper = new ObjectMapper();
         User user = mapper.readValue(body, User.class);
-        users.save(user);
-        response.setStatus(201);
+        String userEmail = user.getEmail();
+        User user1 = users.findFirstByEmail(userEmail);
+        if (user1 == null) {
+            users.save(user);
+            response.setStatus(201);
+        } else throw new Exception("Email address is associated with an existing account!");
         return "New user added to database";
     }
 
@@ -63,9 +67,6 @@ public class RehearsalFinderController {
         RehearsalSpace space = mapper.readValue(body, RehearsalSpace.class);
         spaces.save(space);
         response.setStatus(201);
-        System.out.println("Available Amenities: " + space.getAmenities());
-        System.out.println("Available Equipment" + space.getAvailableEquipment());
-        System.out.println("Host Name: " + space.getName() + "Email: " + space.getHostEmail());
         return "New rehearsal space added to database";
     }
 
@@ -77,6 +78,7 @@ public class RehearsalFinderController {
         String email = selectedUser.getEmail();
         User deleteUser = users.findFirstByEmail(email);
         users.delete(deleteUser);
+        response.setStatus(201);
         return "User removed";
     }
 
@@ -88,6 +90,7 @@ public class RehearsalFinderController {
         String email = selectedSpace.getHostEmail();
         RehearsalSpace deleteSpace = spaces.findFirstByHostEmail(email);
         spaces.delete(deleteSpace);
+        response.setStatus(201);
         return "Space removed";
     }
 
