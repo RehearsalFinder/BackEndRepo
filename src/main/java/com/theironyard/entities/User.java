@@ -1,11 +1,7 @@
 package com.theironyard.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.theironyard.utilities.PasswordStorage;
-
 import javax.persistence.*;
-import java.io.File;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")

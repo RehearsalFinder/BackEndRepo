@@ -3,7 +3,6 @@ package com.theironyard.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theironyard.entities.RehearsalSpace;
 import com.theironyard.entities.User;
-//import com.theironyard.services.RehearsalSpaceRepository;
 import com.theironyard.services.RehearsalSpaceRepository;
 import com.theironyard.services.UserRepository;
 import com.theironyard.utilities.JsonUser;
@@ -68,6 +67,18 @@ public class RehearsalFinderController {
         System.out.println("Available Equipment" + space.getAvailableEquipment());
         System.out.println("Host Name: " + space.getName() + "Email: " + space.getHostEmail());
         return "New rehearsal space added to database";
+    }
+
+    @RequestMapping(path = "/delete-user", method = RequestMethod.DELETE)
+    public String deleteUser(@RequestBody String body, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        ObjectMapper mapper = new ObjectMapper();
+        User selectedUser = mapper.readValue(body, User.class);
+        String email = selectedUser.getEmail();
+        User deleteUser = users.findFirstByEmail(email);
+        System.out.println(deleteUser);
+        users.delete(deleteUser);
+        return "User removed";
     }
 
 }
