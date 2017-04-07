@@ -76,9 +76,19 @@ public class RehearsalFinderController {
         User selectedUser = mapper.readValue(body, User.class);
         String email = selectedUser.getEmail();
         User deleteUser = users.findFirstByEmail(email);
-        System.out.println(deleteUser);
         users.delete(deleteUser);
         return "User removed";
+    }
+
+    @RequestMapping(path = "/delete-space", method = RequestMethod.DELETE)
+    public String deleteSpace(@RequestBody String body, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        ObjectMapper mapper = new ObjectMapper();
+        RehearsalSpace selectedSpace = mapper.readValue(body, RehearsalSpace.class);
+        String email = selectedSpace.getHostEmail();
+        RehearsalSpace deleteSpace = spaces.findFirstByHostEmail(email);
+        spaces.delete(deleteSpace);
+        return "Space removed";
     }
 
 }
