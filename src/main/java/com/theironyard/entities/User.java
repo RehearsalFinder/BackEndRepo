@@ -32,7 +32,18 @@ public class User {
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private String birthday;
 
-//    @Column
+    @Column
+    private String phone;
+
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    //    @Column
 //    public File photo;
 
     public int getId() {
@@ -75,13 +86,14 @@ public class User {
         this.birthday = birthday;
     }
 
-    public User(String firstName, String lastName, String password, String email, String birthday)
+    public User(String firstName, String lastName, String password, String email, String birthday, String phone)
             throws PasswordStorage.CannotPerformOperationException {
         this.firstName = firstName;
         this.lastName = lastName;
         setPassword(password);
         this.email = email;
         this.birthday = birthday;
+        this.phone = phone;
     }
 
     public User() {

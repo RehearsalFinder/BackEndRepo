@@ -64,6 +64,9 @@ public class RehearsalFinderController {
         RehearsalSpace space = mapper.readValue(body, RehearsalSpace.class);
         spaces.save(space);
         response.setStatus(201);
+        System.out.println("Available Amenities: " + space.getAmenities());
+        System.out.println("Available Equipment" + space.getAvailableEquipment());
+        System.out.println("Host Name: " + space.getName() + "Email: " + space.getHostEmail());
         return "New rehearsal space added to database";
     }
 
