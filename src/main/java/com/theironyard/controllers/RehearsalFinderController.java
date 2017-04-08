@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class RehearsalFinderController {
         String password = jsonUser.getPassword();
         String email = jsonUser.getEmail();
         User user = users.findFirstByEmail(email);
-        if (user != null){
+        if (user != null) {
             if (!user.verifyPassword(password)) {
                 throw new Exception("Wrong credentials!");
             }
@@ -93,5 +94,22 @@ public class RehearsalFinderController {
         response.setStatus(201);
         return "Space removed";
     }
+
+    @RequestMapping(path = "/browse-all", method = RequestMethod.GET)
+    public ArrayList<RehearsalSpace> browseAll() {
+        ArrayList<RehearsalSpace> spacesList = (ArrayList<RehearsalSpace>) spaces.findAll();
+        return spacesList;
+    }
+
+    // todo return a list of featured rehearsal spaces (5?) on the home page
+
+    @RequestMapping(path = "/home", method = RequestMethod.GET)
+    public ArrayList<RehearsalSpace> home() {
+
+
+        return featuredSpacesList;
+    }
+
+
 
 }
