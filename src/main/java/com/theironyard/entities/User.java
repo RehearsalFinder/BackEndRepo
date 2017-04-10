@@ -1,14 +1,19 @@
 package com.theironyard.entities;
 
 import com.theironyard.utilities.PasswordStorage;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
 public class User implements HasId{
 
+    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     String id;
 
     @Column

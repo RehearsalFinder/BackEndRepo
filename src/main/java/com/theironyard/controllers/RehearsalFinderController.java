@@ -16,10 +16,7 @@ import com.theironyard.utilities.JsonUser;
 import com.theironyard.utilities.PasswordStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -66,9 +63,18 @@ public class RehearsalFinderController {
             if (!user.verifyPassword(password)) {
                 throw new Exception("Wrong credentials!");
             }
-        }
+        } else throw new Exception("User account does not exist");
         response.setStatus(201);
         return rootSerializer.serializeOne("/login", user, userSerializer);
+    }
+
+    // get user from id
+    @RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
+    public Map<String, Object> getUser(@PathVariable("id") String id) throws Exception {
+        RootSerializer rootSerializer = new RootSerializer();
+        UserSerializer userSerializer = new UserSerializer();
+        User user = users.findFirstById(id);
+        return rootSerializer.serializeOne("/users/{id}", user, userSerializer);
     }
 
     // todo add login verification for this route
@@ -113,6 +119,13 @@ public class RehearsalFinderController {
         ArrayList<RehearsalSpace> spacesList = (ArrayList<RehearsalSpace>) spaces.findAll();
         return spacesList;
     }
+
+//    @RequestMapping(path = "/users", method = RequestMethod.GET)
+//    public Map<String, Object> returnUser(@RequestMapping String body, HttpServletResponse response)
+//    {
+//
+//        return
+//    }
 
 //    @RequestMapping(path = "/featured-spaces", method = RequestMethod.GET)
 //    public ArrayList<RehearsalSpace> home() {
