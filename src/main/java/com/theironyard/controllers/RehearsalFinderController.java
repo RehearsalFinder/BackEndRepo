@@ -101,15 +101,10 @@ public class RehearsalFinderController {
         return spacesList;
     }
 
-    // todo return a list of featured rehearsal spaces (5?) on the home page
-
-    @RequestMapping(path = "/home", method = RequestMethod.GET)
+    @RequestMapping(path = "/featured-spaces", method = RequestMethod.GET)
     public ArrayList<RehearsalSpace> home() {
-
-
+        ArrayList<RehearsalSpace> featuredSpacesList = spaces.findAllByIsFeaturedIsTrue();
         return featuredSpacesList;
     }
-
-
 
 }

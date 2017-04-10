@@ -1,5 +1,9 @@
 package com.theironyard.entities;
 
+import javafx.beans.DefaultProperty;
+import jdk.nashorn.internal.ir.annotations.Ignore;
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 
@@ -38,13 +42,15 @@ public class RehearsalSpace {
     @Column
     private String hostPhone;
 
+    @Column
+    private Boolean isFeatured;
 
     public RehearsalSpace() {
     }
 
     public RehearsalSpace(String name, String location, double costPerHour,
                           double squareFeet, ArrayList<String> amenities, ArrayList<String> availableEquipment,
-                          String spaceHostName, String hostEmail, String hostPhone) {
+                          String spaceHostName, String hostEmail, String hostPhone, Boolean isFeatured) {
         this.name = name;
         this.location = location;
         this.costPerHour = costPerHour;
@@ -54,6 +60,15 @@ public class RehearsalSpace {
         this.spaceHostName = spaceHostName;
         this.hostEmail = hostEmail;
         this.hostPhone = hostPhone;
+        this.isFeatured = isFeatured;
+    }
+
+    public Boolean getFeatured() {
+        return isFeatured;
+    }
+
+    public void setFeatured(Boolean featured) {
+        isFeatured = featured;
     }
 
     public String getSpaceHostName() {
