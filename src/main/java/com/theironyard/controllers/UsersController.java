@@ -68,10 +68,10 @@ public class UsersController {
         if (users.findFirstByEmail(email) != null){
             if (user.verifyPassword(password)) {
                 users.delete(user);
+                response.setStatus(204);
             } else throw new Exception("Wrong credentials!");
         }
         return rootSerializer.serializeOne("/login", user, userSerializer);
     }
-
 
 }

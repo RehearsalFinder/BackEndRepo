@@ -2,6 +2,8 @@ package com.theironyard.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theironyard.entities.RehearsalSpace;
+import com.theironyard.serializers.RootSerializer;
+import com.theironyard.serializers.SpacesSerializer;
 import com.theironyard.services.RehearsalSpaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,10 @@ public class SpacesController {
 
     @Autowired
     RehearsalSpaceRepository spaces;
+
+    RootSerializer rootSerializer = new RootSerializer();
+    SpacesSerializer spacesSerializer = new SpacesSerializer();
+
 
     @RequestMapping(path = "/browse-all", method = RequestMethod.GET)
     public ArrayList<RehearsalSpace> browseAll() {
