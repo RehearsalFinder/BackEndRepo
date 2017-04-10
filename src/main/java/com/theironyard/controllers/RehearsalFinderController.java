@@ -61,6 +61,7 @@ public class RehearsalFinderController {
         return user;
     }
 
+    // todo add login verification for this route
     @RequestMapping(path = "/add-space", method = RequestMethod.POST)
     public String addSpace(@RequestBody String body, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
@@ -71,6 +72,7 @@ public class RehearsalFinderController {
         return "New rehearsal space added to database";
     }
 
+    // todo add login verification for this route
     @RequestMapping(path = "/delete-user", method = RequestMethod.DELETE)
     public String deleteUser(@RequestBody String body, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
@@ -83,6 +85,7 @@ public class RehearsalFinderController {
         return "User removed";
     }
 
+    // todo add login verification for this route
     @RequestMapping(path = "/delete-space", method = RequestMethod.DELETE)
     public String deleteSpace(@RequestBody String body, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
