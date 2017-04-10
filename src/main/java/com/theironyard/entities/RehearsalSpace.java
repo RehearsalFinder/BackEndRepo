@@ -2,6 +2,7 @@ package com.theironyard.entities;
 
 import javafx.beans.DefaultProperty;
 import jdk.nashorn.internal.ir.annotations.Ignore;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
@@ -9,11 +10,14 @@ import java.util.ArrayList;
 
 @Entity
 @Table(name = "spaces")
-public class RehearsalSpace {
+public class RehearsalSpace implements HasId{
+
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
-    int id;
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    String id;
 
     @Column
     private String name;
@@ -98,11 +102,11 @@ public class RehearsalSpace {
         this.hostPhone = hostPhone;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
