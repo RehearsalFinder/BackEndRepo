@@ -45,6 +45,9 @@ public class RehearsalSpace {
     @Column
     private Boolean isFeatured;
 
+    @ManyToOne
+    User user;
+
     public RehearsalSpace() {
     }
 

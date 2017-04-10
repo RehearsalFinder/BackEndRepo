@@ -5,11 +5,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements HasId{
 
     @Id
     @GeneratedValue
-    int id;
+    String id;
 
     @Column
     private String firstName;
@@ -42,12 +42,12 @@ public class User {
     //    @Column
 //    public File photo;
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String val) {
+        this.id = val;
     }
 
     public String getFirstName() {

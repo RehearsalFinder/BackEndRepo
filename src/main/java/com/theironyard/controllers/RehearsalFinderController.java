@@ -1,13 +1,21 @@
 package com.theironyard.controllers;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.theironyard.entities.RehearsalSpace;
 import com.theironyard.entities.User;
+import com.theironyard.serializers.RootSerializer;
+import com.theironyard.serializers.UserSerializer;
 import com.theironyard.services.RehearsalSpaceRepository;
 import com.theironyard.services.UserRepository;
 import com.theironyard.utilities.JsonUser;
 import com.theironyard.utilities.PasswordStorage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,12 +48,14 @@ public class RehearsalFinderController {
             users.save(user);
             response.setStatus(201);
         } else throw new Exception("Email address is associated with an existing account!");
-        return "New user added to database";
+        return "New user added";
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public User login(@RequestBody String body, HttpServletResponse response, HttpSession session)
+    public Map<String, Object> login(@RequestBody String body, HttpServletResponse response, HttpSession session)
             throws Exception {
+        RootSerializer rootSerializer = new RootSerializer();
+        UserSerializer userSerializer = new UserSerializer();
         response.setContentType("application/json");
         ObjectMapper mapper = new ObjectMapper();
         JsonUser jsonUser = mapper.readValue(body, JsonUser.class);
@@ -58,7 +68,7 @@ public class RehearsalFinderController {
             }
         }
         response.setStatus(201);
-        return user;
+        return rootSerializer.serializeOne("/login", user, userSerializer);
     }
 
     // todo add login verification for this route
@@ -104,10 +114,13 @@ public class RehearsalFinderController {
         return spacesList;
     }
 
-    @RequestMapping(path = "/featured-spaces", method = RequestMethod.GET)
-    public ArrayList<RehearsalSpace> home() {
-        ArrayList<RehearsalSpace> featuredSpacesList = spaces.findAllByIsFeaturedIsTrue();
-        return featuredSpacesList;
-    }
+//    @RequestMapping(path = "/featured-spaces", method = RequestMethod.GET)
+//    public ArrayList<RehearsalSpace> home() {
+//        RootSerializer rootSerializer = new RootSerializer();
+//        UserSerializer userSerializer = new UserSerializer();
+//        ArrayList<RehearsalSpace> featuredSpacesList = spaces.findAllByIsFeaturedIsTrue();
+//
+//        return rootSerializer;
+//    }
 
 }
