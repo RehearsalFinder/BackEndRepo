@@ -9,5 +9,5 @@ public interface RehearsalSpaceRepository extends CrudRepository<RehearsalSpace,
 
     RehearsalSpace findFirstByHostEmail(String email);
 
-    ArrayList<RehearsalSpace> findAllByIsFeaturedIsTrue();
+    //ArrayList<RehearsalSpace> findAllByFeaturedEquals(String yes);
 }

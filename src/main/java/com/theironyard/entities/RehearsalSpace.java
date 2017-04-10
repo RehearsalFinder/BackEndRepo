@@ -26,10 +26,10 @@ public class RehearsalSpace implements HasId{
     private String location;
 
     @Column
-    private double costPerHour;
+    private String costPerHour;
 
     @Column
-    private double squareFeet;
+    private String squareFeet;
 
     @Column
     private ArrayList<String> amenities;
@@ -47,7 +47,7 @@ public class RehearsalSpace implements HasId{
     private String hostPhone;
 
     @Column
-    private Boolean isFeatured;
+    private String featured;
 
     @ManyToOne
     User user;
@@ -55,9 +55,9 @@ public class RehearsalSpace implements HasId{
     public RehearsalSpace() {
     }
 
-    public RehearsalSpace(String name, String location, double costPerHour,
-                          double squareFeet, ArrayList<String> amenities, ArrayList<String> availableEquipment,
-                          String spaceHostName, String hostEmail, String hostPhone, Boolean isFeatured) {
+    public RehearsalSpace(String name, String location, String costPerHour,
+                          String squareFeet, ArrayList<String> amenities, ArrayList<String> availableEquipment,
+                          String spaceHostName, String hostEmail, String hostPhone, String featured) {
         this.name = name;
         this.location = location;
         this.costPerHour = costPerHour;
@@ -67,15 +67,15 @@ public class RehearsalSpace implements HasId{
         this.spaceHostName = spaceHostName;
         this.hostEmail = hostEmail;
         this.hostPhone = hostPhone;
-        this.isFeatured = isFeatured;
+        this.featured = featured;
     }
 
-    public Boolean getFeatured() {
-        return isFeatured;
+    public String getFeatured() {
+        return featured;
     }
 
-    public void setFeatured(Boolean featured) {
-        isFeatured = featured;
+    public void setFeatured(String featured) {
+        this.featured = featured;
     }
 
     public String getSpaceHostName() {
@@ -126,19 +126,19 @@ public class RehearsalSpace implements HasId{
         this.location = location;
     }
 
-    public double getCostPerHour() {
+    public String getCostPerHour() {
         return costPerHour;
     }
 
-    public void setCostPerHour(double costPerHour) {
+    public void setCostPerHour(String costPerHour) {
         this.costPerHour = costPerHour;
     }
 
-    public double getSquareFeet() {
+    public String getSquareFeet() {
         return squareFeet;
     }
 
-    public void setSquareFeet(double squareFeet) {
+    public void setSquareFeet(String squareFeet) {
         this.squareFeet = squareFeet;
     }
 
