@@ -1,4 +1,16 @@
 package com.theironyard.parsers;
 
-public class RootParser {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class RootParser<T> {
+    JsonApiDataParser<T> data;
+
+    public RootParser(
+            @JsonProperty("data") JsonApiDataParser<T> data) {
+        this.data = data;
+    }
+
+    public JsonApiDataParser<T> getData() {
+        return this.data;
+    }
 }
