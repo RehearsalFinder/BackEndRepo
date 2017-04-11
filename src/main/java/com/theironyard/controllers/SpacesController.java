@@ -47,7 +47,8 @@ public class SpacesController {
     @RequestMapping(path = "/delete-space/{id}", method = RequestMethod.DELETE)
     public void deleteSpace(@PathVariable ("id") String id, HttpServletResponse response)
             throws IOException {
-        spaces.delete(Integer.valueOf(id));
+        RehearsalSpace deleteSpace = spaces.findFirstById(id);
+        spaces.delete(deleteSpace);
         response.setStatus(201);
     }
 
