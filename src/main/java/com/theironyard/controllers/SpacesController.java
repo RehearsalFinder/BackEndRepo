@@ -50,4 +50,26 @@ public class SpacesController {
         response.setStatus(201);
     }
 
+    @RequestMapping(path = "/update-spaces/{id}", method = RequestMethod.PATCH)
+    public Map<String, Object> updateSpaces(@PathVariable ("id") String id,
+                                            @RequestBody RootParser<RehearsalSpace> parser) {
+        RehearsalSpace existingSpaceInfo = spaces.findFirstById(id);
+        RehearsalSpace newSpaceInfo = parser.getData().getEntity();
+        existingSpaceInfo.setName(newSpaceInfo.getName());
+        existingSpaceInfo.setLocation(newSpaceInfo.getLocation());
+        existingSpaceInfo.setSpaceHostName(newSpaceInfo.getName());
+        existingSpaceInfo.setAmenities(newSpaceInfo.getAmenities());
+        existingSpaceInfo.setAvailableEquipment(newSpaceInfo.getAvailableEquipment());
+        existingSpaceInfo.setCostPerHour(newSpaceInfo.getCostPerHour());
+        existingSpaceInfo.setFeatured(newSpaceInfo.getFeatured());
+        existingSpaceInfo.setSquareFeet(newSpaceInfo.getSquareFeet());
+        existingSpaceInfo.setHostPhone(newSpaceInfo.getHostPhone());
+        existingSpaceInfo.setHostEmail(newSpaceInfo.getHostEmail());
+        spaces.save(existingSpaceInfo);
+
+        return rootSerializer.serializeOne("/update-users/" + existingSpaceInfo.getId(),
+                existingSpaceInfo, spacesSerializer);
+
+    }
+
 }
