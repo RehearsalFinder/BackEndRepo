@@ -10,7 +10,7 @@ import java.util.Map;
 public class UserSerializer extends JsonDataSerializer {
 
     public String getType() {
-        return "posts";
+        return "users";
     }
 
     public Map<String, Object> getAttributes(HasId entity) {

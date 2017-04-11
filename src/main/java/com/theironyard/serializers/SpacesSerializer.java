@@ -10,7 +10,7 @@ import java.util.Map;
 public class SpacesSerializer extends JsonDataSerializer {
 
     public String getType() {
-        return "posts";
+        return "spaces";
     }
 
     public Map<String, Object> getAttributes(HasId entity) {
