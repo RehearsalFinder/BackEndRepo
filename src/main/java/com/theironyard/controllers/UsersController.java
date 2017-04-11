@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class UsersController {
 
     @Autowired
@@ -56,7 +57,7 @@ public class UsersController {
     @RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
     public Map<String, Object> getUser(@PathVariable("id") String id) throws Exception {
         User user = users.findFirstById(id);
-        return rootSerializer.serializeOne("/users/{id}", user, userSerializer);
+        return rootSerializer.serializeOne("/users/" + user.getId(), user, userSerializer);
     }
 
     @RequestMapping(path = "/delete-user", method = RequestMethod.DELETE)
@@ -71,7 +72,13 @@ public class UsersController {
                 response.setStatus(204);
             } else throw new Exception("Wrong credentials!");
         }
-        return rootSerializer.serializeOne("/login", user, userSerializer);
+        return rootSerializer.serializeOne("/delete-user", user, userSerializer);
+    }
+
+    @RequestMapping(path = "/delete-user/{id}", method = RequestMethod.DELETE)
+    public void deleteUserById(@PathVariable ("id") String id, HttpServletResponse response) {
+        users.delete(id);
+        response.setStatus(201);
     }
 
     @RequestMapping(path = "/update-users/{id}", method = RequestMethod.PATCH)

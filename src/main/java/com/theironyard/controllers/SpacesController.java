@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class SpacesController {
 
     @Autowired
