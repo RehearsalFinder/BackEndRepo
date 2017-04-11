@@ -98,7 +98,6 @@ public class UsersController {
         users.save(existingUserInfo);
 
         return rootSerializer.serializeOne("/update-users/" + existingUserInfo.getId(), existingUserInfo, userSerializer);
-
     }
 
 

@@ -40,6 +40,7 @@ public class SpacesController {
         RehearsalSpace space = parser.getData().getEntity();
         spaces.save(space);
         response.setStatus(201);
+        System.out.println(space.getDescription());
         return rootSerializer.serializeOne("/add-space", space, spacesSerializer);
     }
 

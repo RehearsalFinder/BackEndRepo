@@ -31,9 +31,11 @@ public class RehearsalSpace implements HasId{
     @Column
     private String squareFeet;
 
+    @Lob
     @Column
     private ArrayList<String> amenities;
 
+    @Lob
     @Column
     private ArrayList<String> availableEquipment;
 
@@ -49,9 +51,11 @@ public class RehearsalSpace implements HasId{
     @Column
     private String featured;
 
+    @Lob
     @Column
     private String description;
 
+    @Lob
     @Column
     private String rules;
 
