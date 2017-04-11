@@ -28,6 +28,8 @@ public class SpacesSerializer extends JsonDataSerializer {
         result.put("hostEmail", space.getHostEmail());
         result.put("hostPhone", space.getHostPhone());
         result.put("featured", space.getFeatured());
+        result.put("description", space.getDescription());
+        result.put("rules", space.getRules());
 
 
         return result;

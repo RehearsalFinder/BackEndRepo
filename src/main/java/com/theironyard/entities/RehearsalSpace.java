@@ -49,6 +49,12 @@ public class RehearsalSpace implements HasId{
     @Column
     private String featured;
 
+    @Column
+    private String description;
+
+    @Column
+    private String rules;
+
     @ManyToOne
     User user;
 
@@ -57,7 +63,8 @@ public class RehearsalSpace implements HasId{
 
     public RehearsalSpace(String name, String location, String costPerHour,
                           String squareFeet, ArrayList<String> amenities, ArrayList<String> availableEquipment,
-                          String spaceHostName, String hostEmail, String hostPhone, String featured) {
+                          String spaceHostName, String hostEmail, String hostPhone, String featured,
+                          String description, String rules) {
         this.name = name;
         this.location = location;
         this.costPerHour = costPerHour;
@@ -68,6 +75,32 @@ public class RehearsalSpace implements HasId{
         this.hostEmail = hostEmail;
         this.hostPhone = hostPhone;
         this.featured = featured;
+        this.description = description;
+        this.rules = rules;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getRules() {
+        return rules;
+    }
+
+    public void setRules(String rules) {
+        this.rules = rules;
     }
 
     public String getFeatured() {

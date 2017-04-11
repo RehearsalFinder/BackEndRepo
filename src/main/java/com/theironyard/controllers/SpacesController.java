@@ -66,6 +66,8 @@ public class SpacesController {
         existingSpaceInfo.setSquareFeet(newSpaceInfo.getSquareFeet());
         existingSpaceInfo.setHostPhone(newSpaceInfo.getHostPhone());
         existingSpaceInfo.setHostEmail(newSpaceInfo.getHostEmail());
+        existingSpaceInfo.setDescription(newSpaceInfo.getDescription());
+        existingSpaceInfo.setRules(newSpaceInfo.getRules());
         spaces.save(existingSpaceInfo);
 
         return rootSerializer.serializeOne("/update-users/" + existingSpaceInfo.getId(),
