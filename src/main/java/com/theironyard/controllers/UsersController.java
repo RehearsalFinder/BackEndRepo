@@ -74,4 +74,20 @@ public class UsersController {
         return rootSerializer.serializeOne("/login", user, userSerializer);
     }
 
+    @RequestMapping(path = "/update-users/{id}", method = RequestMethod.PATCH)
+    public Map<String, Object> updateUsers(@PathVariable ("id") String id, @RequestBody RootParser<User> parser) {
+        User existingUserInfo = users.findOne(id);
+        User newUserInfo = parser.getData().getEntity();
+        existingUserInfo.setFirstName(newUserInfo.getFirstName());
+        existingUserInfo.setLastName(newUserInfo.getLastName());
+        existingUserInfo.setEmail(newUserInfo.getEmail());
+        existingUserInfo.setBirthday(newUserInfo.getBirthday());
+        existingUserInfo.setPhone(newUserInfo.getPhone());
+        users.save(existingUserInfo);
+
+        return rootSerializer.serializeOne("/update-users/" + existingUserInfo.getId(), existingUserInfo, userSerializer);
+
+    }
+
+
 }
