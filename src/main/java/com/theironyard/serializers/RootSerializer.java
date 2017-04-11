@@ -2,6 +2,7 @@ package com.theironyard.serializers;
 
 import com.theironyard.entities.HasId;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,5 +32,15 @@ public class RootSerializer {
 
         return result;
     }
+
+    public HashMap<String, Object> serializeMany(String resourceUrl, Iterable data, JsonDataSerializer serializer) {
+        Iterable<HasId> results = (Iterable<HasId>) data;
+        List<HasId> resultsList = new ArrayList<>();
+
+        results.iterator().forEachRemaining(resultsList::add);
+
+        return this.serializeMany(resourceUrl, resultsList, serializer);
+    }
+
 }
 

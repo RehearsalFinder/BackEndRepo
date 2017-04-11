@@ -29,9 +29,7 @@ public class SpacesController {
 
     @RequestMapping(path = "/browse-all", method = RequestMethod.GET)
     public Map<String, Object> browseAll() {
-        Iterator<RehearsalSpace> spacesIterator = spaces.findAll().iterator();
-        List<HasId> spacesList = new ArrayList<>();
-        spacesIterator.forEachRemaining(spacesList::add);
+        Iterable<RehearsalSpace> spacesList = spaces.findAll();
         return rootSerializer.serializeMany("/browse-all", spacesList, spacesSerializer);
     }
 
