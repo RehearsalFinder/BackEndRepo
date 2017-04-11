@@ -1,6 +1,7 @@
 package com.theironyard.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.theironyard.entities.HasId;
 import com.theironyard.entities.RehearsalSpace;
 import com.theironyard.parsers.RootParser;
 import com.theironyard.serializers.RootSerializer;
@@ -26,13 +27,13 @@ public class SpacesController {
     SpacesSerializer spacesSerializer = new SpacesSerializer();
 
 
-    // todo not working...
-//    @RequestMapping(path = "/browse-all", method = RequestMethod.GET)
-//    public Map<String, Object> browseAll() {
-//        Iterable<RehearsalSpace> spacesList = spaces.findAll();
-//        System.out.println(spacesList);
-//        return rootSerializer.serializeMany("/browse-all", spacesList, spacesSerializer);
-//    }
+    @RequestMapping(path = "/browse-all", method = RequestMethod.GET)
+    public Map<String, Object> browseAll() {
+        Iterator<RehearsalSpace> spacesIterator = spaces.findAll().iterator();
+        List<HasId> spacesList = new ArrayList<>();
+        spacesIterator.forEachRemaining(spacesList::add);
+        return rootSerializer.serializeMany("/browse-all", spacesList, spacesSerializer);
+    }
 
     @RequestMapping(path = "/add-space", method = RequestMethod.POST)
     public Map<String, Object> addSpace(@RequestBody RootParser<RehearsalSpace> parser, HttpServletResponse response)
