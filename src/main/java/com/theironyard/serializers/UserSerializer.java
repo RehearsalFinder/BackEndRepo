@@ -18,8 +18,8 @@ public class UserSerializer extends JsonDataSerializer {
         User user = (User) entity;
 
         result.put("id", user.getId());
-        result.put("firstName", user.getFirstName());
-        result.put("lastName", user.getLastName());
+        result.put("first-name", user.getFirstName());
+        result.put("last-name", user.getLastName());
         result.put("birthday", user.getBirthday());
         result.put("email", user.getEmail());
         result.put("phone", user.getPhone());
