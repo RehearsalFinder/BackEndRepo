@@ -26,8 +26,8 @@ public class UsersController {
     RootSerializer rootSerializer = new RootSerializer();
     UserSerializer userSerializer = new UserSerializer();
 
-    @RequestMapping(path = "/add-users", method = RequestMethod.POST)
-    public Map<String, Object> createUser(@RequestBody RootParser<User> parser, HttpServletResponse response) {
+    @RequestMapping(path = "/users", method = RequestMethod.POST)
+    public Map<String, Object> create(@RequestBody RootParser<User> parser, HttpServletResponse response) {
         User user = parser.getData().getEntity();
         String userEmail = user.getEmail();
         User user1 = users.findFirstByEmail(userEmail);
@@ -39,7 +39,7 @@ public class UsersController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return rootSerializer.serializeOne("/add-users", user, userSerializer);
+        return rootSerializer.serializeOne("/users", user, userSerializer);
     }
 
 
@@ -61,33 +61,34 @@ public class UsersController {
 
     @RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
     public Map<String, Object> getUser(@PathVariable("id") String id) throws Exception {
+        //todo: try
         User user = users.findFirstById(id);
-        return rootSerializer.serializeOne("/users/" + user.getId(), user, userSerializer);
+        return rootSerializer.serializeOne("/users/" + id, user, userSerializer);
     }
 
-    @RequestMapping(path = "/delete-user", method = RequestMethod.DELETE)
-    public Map<String, Object> deleteUser(@RequestBody RootParser<JsonUser> parser, HttpServletResponse response) throws Exception {
-        JsonUser jsonUser = parser.getData().getEntity();
-        String email = jsonUser.getEmail();
-        String password = jsonUser.getPassword();
-        User user = users.findFirstByEmail(email);
-        if (users.findFirstByEmail(email) != null) {
-            if (user.verifyPassword(password)) {
-                users.delete(user);
-                response.setStatus(204);
-            } else throw new Exception("Wrong credentials!");
-        }
-        return rootSerializer.serializeOne("/delete-user", user, userSerializer);
-    }
+//    @RequestMapping(path = "/delete-user", method = RequestMethod.DELETE)
+//    public Map<String, Object> deleteUser(@RequestBody RootParser<JsonUser> parser, HttpServletResponse response) throws Exception {
+//        JsonUser jsonUser = parser.getData().getEntity();
+//        String email = jsonUser.getEmail();
+//        String password = jsonUser.getPassword();
+//        User user = users.findFirstByEmail(email);
+//        if (users.findFirstByEmail(email) != null) {
+//            if (user.verifyPassword(password)) {
+//                users.delete(user);
+//                response.setStatus(204);
+//            } else throw new Exception("Wrong credentials!");
+//        }
+//        return rootSerializer.serializeOne("/delete-user", user, userSerializer);
+//    }
 
-    @RequestMapping(path = "/delete-user/{id}", method = RequestMethod.DELETE)
-    public void deleteUserById(@PathVariable("id") String id, HttpServletResponse response) {
+    @RequestMapping(path = "/users/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") String id, HttpServletResponse response) {
         users.delete(id);
         response.setStatus(201);
     }
 
-    @RequestMapping(path = "/update-users/{id}", method = RequestMethod.PATCH)
-    public Map<String, Object> updateUsers(@PathVariable("id") String id, @RequestBody RootParser<User> parser) {
+    @RequestMapping(path = "/users/{id}", method = RequestMethod.PATCH)
+    public Map<String, Object> update(@PathVariable("id") String id, @RequestBody RootParser<User> parser) {
         User existingUserInfo = users.findOne(id);
         User newUserInfo = parser.getData().getEntity();
         existingUserInfo.setFirstName(newUserInfo.getFirstName());
@@ -97,7 +98,7 @@ public class UsersController {
         existingUserInfo.setPhone(newUserInfo.getPhone());
         users.save(existingUserInfo);
 
-        return rootSerializer.serializeOne("/update-users/" + existingUserInfo.getId(), existingUserInfo, userSerializer);
+        return rootSerializer.serializeOne("/users/" + existingUserInfo.getId(), existingUserInfo, userSerializer);
     }
 
 }

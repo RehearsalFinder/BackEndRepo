@@ -29,10 +29,10 @@ public class RehearsalSpace implements HasId{
     private String squareFeet;
 
 
-    @Column(columnDefinition = "text")
+    @Column(length=2000)
     private ArrayList<String> amenities;
 
-    @Column(columnDefinition = "text")
+    @Column(length=2000)
     private ArrayList<String> availableEquipment;
 
     @Column
@@ -47,10 +47,10 @@ public class RehearsalSpace implements HasId{
     @Column
     private String featured;
 
-    @Column(columnDefinition = "text")
+    @Column(length=2000)
     private String description;
 
-    @Column(columnDefinition = "text")
+    @Column(length=2000)
     private String rules;
 
     @ManyToOne
