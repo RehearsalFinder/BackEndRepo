@@ -11,5 +11,5 @@ public interface RehearsalSpaceRepository extends CrudRepository<RehearsalSpace,
 
     RehearsalSpace findFirstById(String id);
 
-    //ArrayList<RehearsalSpace> findAllByFeaturedEquals(String yes);
+    ArrayList<RehearsalSpace> findAllByFeaturedEquals(String yes);
 }

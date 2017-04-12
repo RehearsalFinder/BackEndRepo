@@ -36,18 +36,27 @@ public class SpacesController {
 
     @RequestMapping(path = "/spaces", method = RequestMethod.POST)
     public Map<String, Object> createSpace(@RequestBody RootParser<RehearsalSpace> parser, HttpServletResponse response)
-            throws IOException {
+            {
         RehearsalSpace space = parser.getData().getEntity();
-        spaces.save(space);
-        response.setStatus(201);
+        try {
+            spaces.save(space);
+            response.setStatus(201);
+        } catch (Exception e) {
+            e.getMessage();
+        }
         System.out.println(space.getDescription());
         return rootSerializer.serializeOne("/spaces", space, spacesSerializer);
     }
 
     @RequestMapping(path = "/spaces/{id}", method = RequestMethod.DELETE)
     public void deleteSpace(@PathVariable ("id") String id, HttpServletResponse response)
-            throws IOException {
-        RehearsalSpace deleteSpace = spaces.findFirstById(id);
+            {
+        RehearsalSpace deleteSpace = new RehearsalSpace();
+        try {
+            deleteSpace = spaces.findFirstById(id);
+        } catch (Exception e) {
+            e.getMessage();
+        }
         spaces.delete(deleteSpace);
         response.setStatus(204);
     }
@@ -55,8 +64,15 @@ public class SpacesController {
     @RequestMapping(path = "/spaces/{id}", method = RequestMethod.PATCH)
     public Map<String, Object> updateSpaces(@PathVariable ("id") String id,
                                             @RequestBody RootParser<RehearsalSpace> parser) {
-        RehearsalSpace existingSpaceInfo = spaces.findFirstById(id);
+        RehearsalSpace existingSpaceInfo = new RehearsalSpace();
         RehearsalSpace newSpaceInfo = parser.getData().getEntity();
+
+        try {
+            existingSpaceInfo = spaces.findFirstById(id);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
         existingSpaceInfo.setName(newSpaceInfo.getName());
         existingSpaceInfo.setLocation(newSpaceInfo.getLocation());
         existingSpaceInfo.setSpaceHostName(newSpaceInfo.getName());
@@ -69,7 +85,12 @@ public class SpacesController {
         existingSpaceInfo.setHostEmail(newSpaceInfo.getHostEmail());
         existingSpaceInfo.setDescription(newSpaceInfo.getDescription());
         existingSpaceInfo.setRules(newSpaceInfo.getRules());
-        spaces.save(existingSpaceInfo);
+
+        try {
+            spaces.save(existingSpaceInfo);
+        } catch (Exception e) {
+            e.getMessage();
+        }
 
         return rootSerializer.serializeOne("/spaces/" + id,
                 existingSpaceInfo, spacesSerializer);
@@ -77,10 +98,27 @@ public class SpacesController {
     }
 
     @RequestMapping(path = "/spaces/{id}", method = RequestMethod.GET)
-    public Map<String, Object> getSpace(@PathVariable("id") String id) throws Exception {
-        //todo: try
-        RehearsalSpace space = spaces.findFirstById(id);
+    public Map<String, Object> getSpace(@PathVariable("id") String id, HttpServletResponse response){
+            RehearsalSpace space = new RehearsalSpace();
+            try {
+                space = spaces.findFirstById(id);
+                response.setStatus(200);
+            } catch (Exception e) {
+                e.getMessage();
+            }
         return rootSerializer.serializeOne("/spaces/" + id, space, spacesSerializer);
+    }
+
+    @RequestMapping(path = "/spaces/featured", method = RequestMethod.GET)
+    public Map<String, Object> getFeatured(HttpServletResponse response) {
+        ArrayList<RehearsalSpace> featuredList = new ArrayList<>();
+        try {
+            featuredList = spaces.findAllByFeaturedEquals("yes");
+            response.setStatus(200);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        return rootSerializer.serializeMany("/spaces/featured", featuredList, spacesSerializer);
     }
 
 }

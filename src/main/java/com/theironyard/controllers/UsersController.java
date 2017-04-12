@@ -60,26 +60,15 @@ public class UsersController {
     }
 
     @RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
-    public Map<String, Object> getUser(@PathVariable("id") String id) throws Exception {
-        //todo: try
-        User user = users.findFirstById(id);
+    public Map<String, Object> getUser(@PathVariable("id") String id) {
+        User user = new User();
+        try {
+            user = users.findFirstById(id);
+        } catch (Exception e) {
+            e.getMessage();
+        }
         return rootSerializer.serializeOne("/users/" + id, user, userSerializer);
     }
-
-//    @RequestMapping(path = "/delete-user", method = RequestMethod.DELETE)
-//    public Map<String, Object> deleteUser(@RequestBody RootParser<JsonUser> parser, HttpServletResponse response) throws Exception {
-//        JsonUser jsonUser = parser.getData().getEntity();
-//        String email = jsonUser.getEmail();
-//        String password = jsonUser.getPassword();
-//        User user = users.findFirstByEmail(email);
-//        if (users.findFirstByEmail(email) != null) {
-//            if (user.verifyPassword(password)) {
-//                users.delete(user);
-//                response.setStatus(204);
-//            } else throw new Exception("Wrong credentials!");
-//        }
-//        return rootSerializer.serializeOne("/delete-user", user, userSerializer);
-//    }
 
     @RequestMapping(path = "/users/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") String id, HttpServletResponse response) {
