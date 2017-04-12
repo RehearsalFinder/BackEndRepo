@@ -76,4 +76,12 @@ public class SpacesController {
 
     }
 
+    @RequestMapping(path = "/spaces/{id}", method = RequestMethod.GET)
+    public Map<String, Object> getSpace(@PathVariable ("id") String id, HttpServletResponse response) {
+        RehearsalSpace space = spaces.findFirstById(id);
+        System.out.println(space);
+        response.setStatus(201);
+        return rootSerializer.serializeOne("/spaces/" + space.getId(), space, spacesSerializer);
+    }
+
 }

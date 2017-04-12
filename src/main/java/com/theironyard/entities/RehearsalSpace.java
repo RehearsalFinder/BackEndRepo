@@ -1,9 +1,6 @@
 package com.theironyard.entities;
 
-import javafx.beans.DefaultProperty;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,12 +28,11 @@ public class RehearsalSpace implements HasId{
     @Column
     private String squareFeet;
 
-    @Lob
-    @Column
+
+    @Column(columnDefinition = "text")
     private ArrayList<String> amenities;
 
-    @Lob
-    @Column
+    @Column(columnDefinition = "text")
     private ArrayList<String> availableEquipment;
 
     @Column
@@ -51,12 +47,10 @@ public class RehearsalSpace implements HasId{
     @Column
     private String featured;
 
-    @Lob
-    @Column
+    @Column(columnDefinition = "text")
     private String description;
 
-    @Lob
-    @Column
+    @Column(columnDefinition = "text")
     private String rules;
 
     @ManyToOne
