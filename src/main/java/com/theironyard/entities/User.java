@@ -1,5 +1,6 @@
 package com.theironyard.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.theironyard.utilities.PasswordStorage;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -17,9 +18,11 @@ public class User implements HasId{
     String id;
 
     @Column
+    @JsonProperty("first-name")
     private String firstName;
 
     @Column
+    @JsonProperty("last-name")
     private String lastName;
 
     @Column
