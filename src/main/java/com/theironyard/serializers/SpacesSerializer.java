@@ -17,16 +17,15 @@ public class SpacesSerializer extends JsonDataSerializer {
         Map<String, Object> result = new HashMap<>();
         RehearsalSpace space = (RehearsalSpace) entity;
 
-        result.put("id", space.getId());
         result.put("name", space.getName());
         result.put("location", space.getLocation());
-        result.put("costPerHour", space.getCostPerHour());
-        result.put("squareFeet", space.getSquareFeet());
+        result.put("cost-per-hour", space.getCostPerHour());
+        result.put("square-feet", space.getSquareFeet());
         result.put("amenities", space.getAmenities());
-        result.put("availableEquipment", space.getAvailableEquipment());
-        result.put("spaceHostName", space.getSpaceHostName());
-        result.put("hostEmail", space.getHostEmail());
-        result.put("hostPhone", space.getHostPhone());
+        result.put("available-equipment", space.getAvailableEquipment());
+        result.put("space-host-name", space.getSpaceHostName());
+        result.put("host-email", space.getHostEmail());
+        result.put("host-phone", space.getHostPhone());
         result.put("featured", space.getFeatured());
         result.put("description", space.getDescription());
         result.put("rules", space.getRules());
