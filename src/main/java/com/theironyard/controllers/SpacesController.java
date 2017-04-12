@@ -35,7 +35,7 @@ public class SpacesController {
     }
 
     @RequestMapping(path = "/add-space", method = RequestMethod.POST)
-    public Map<String, Object> addSpace(@RequestBody RootParser<RehearsalSpace> parser, HttpServletResponse response)
+    public Map<String, Object> createSpace(@RequestBody RootParser<RehearsalSpace> parser, HttpServletResponse response)
             throws IOException {
         RehearsalSpace space = parser.getData().getEntity();
         spaces.save(space);
@@ -77,10 +77,8 @@ public class SpacesController {
     }
 
     @RequestMapping(path = "/spaces/{id}", method = RequestMethod.GET)
-    public Map<String, Object> getSpace(@PathVariable ("id") String id, HttpServletResponse response) {
+    public Map<String, Object> getSpace(@PathVariable("id") String id) throws Exception {
         RehearsalSpace space = spaces.findFirstById(id);
-        System.out.println(space);
-        response.setStatus(201);
         return rootSerializer.serializeOne("/spaces/" + space.getId(), space, spacesSerializer);
     }
 

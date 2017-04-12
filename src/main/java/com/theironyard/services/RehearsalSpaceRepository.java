@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.ArrayList;
 
-public interface RehearsalSpaceRepository extends CrudRepository<RehearsalSpace, Integer> {
+public interface RehearsalSpaceRepository extends CrudRepository<RehearsalSpace, String> {
 
     RehearsalSpace findFirstByHostEmail(String email);
 

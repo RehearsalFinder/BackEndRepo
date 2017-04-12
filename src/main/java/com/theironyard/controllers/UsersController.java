@@ -27,7 +27,7 @@ public class UsersController {
     UserSerializer userSerializer = new UserSerializer();
 
     @RequestMapping(path = "/add-users", method = RequestMethod.POST)
-    public Map<String, Object> signUp(@RequestBody RootParser<User> parser, HttpServletResponse response) {
+    public Map<String, Object> createUser(@RequestBody RootParser<User> parser, HttpServletResponse response) {
         User user = parser.getData().getEntity();
         String userEmail = user.getEmail();
         User user1 = users.findFirstByEmail(userEmail);
@@ -99,5 +99,5 @@ public class UsersController {
 
         return rootSerializer.serializeOne("/update-users/" + existingUserInfo.getId(), existingUserInfo, userSerializer);
     }
-    
+
 }
