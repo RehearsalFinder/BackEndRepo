@@ -1,5 +1,6 @@
 package com.theironyard.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -23,34 +24,40 @@ public class RehearsalSpace implements HasId{
     private String location;
 
     @Column
+    @JsonProperty("cost-per-hour")
     private String costPerHour;
 
     @Column
+    @JsonProperty("square-feet")
     private String squareFeet;
 
 
-    @Column(length=2000)
+    @Column(length=3000)
     private ArrayList<String> amenities;
 
-    @Column(length=2000)
+    @Column(length=3000)
+    @JsonProperty("available-equipment")
     private ArrayList<String> availableEquipment;
 
     @Column
+    @JsonProperty("space-host-name")
     private String spaceHostName;
 
     @Column
+    @JsonProperty("host-email")
     private String hostEmail;
 
     @Column
+    @JsonProperty("host-phone")
     private String hostPhone;
 
     @Column
     private String featured;
 
-    @Column(length=2000)
+    @Column(length=3000)
     private String description;
 
-    @Column(length=2000)
+    @Column(length=3000)
     private String rules;
 
     @ManyToOne
