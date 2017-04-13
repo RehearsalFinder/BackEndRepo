@@ -72,20 +72,29 @@ public class UsersController {
 
     @RequestMapping(path = "/users/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") String id, HttpServletResponse response) {
+        try {
         users.delete(id);
         response.setStatus(201);
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 
     @RequestMapping(path = "/users/{id}", method = RequestMethod.PATCH)
     public Map<String, Object> update(@PathVariable("id") String id, @RequestBody RootParser<User> parser) {
-        User existingUserInfo = users.findOne(id);
-        User newUserInfo = parser.getData().getEntity();
-        existingUserInfo.setFirstName(newUserInfo.getFirstName());
-        existingUserInfo.setLastName(newUserInfo.getLastName());
-        existingUserInfo.setEmail(newUserInfo.getEmail());
-        existingUserInfo.setBirthday(newUserInfo.getBirthday());
-        existingUserInfo.setPhone(newUserInfo.getPhone());
-        users.save(existingUserInfo);
+        User existingUserInfo = new User();
+        try {
+             existingUserInfo = users.findOne(id);
+            User newUserInfo = parser.getData().getEntity();
+            existingUserInfo.setFirstName(newUserInfo.getFirstName());
+            existingUserInfo.setLastName(newUserInfo.getLastName());
+            existingUserInfo.setEmail(newUserInfo.getEmail());
+            existingUserInfo.setBirthday(newUserInfo.getBirthday());
+            existingUserInfo.setPhone(newUserInfo.getPhone());
+            users.save(existingUserInfo);
+        } catch (Exception e) {
+            e.getMessage();
+        }
 
         return rootSerializer.serializeOne("/users/" + existingUserInfo.getId(), existingUserInfo, userSerializer);
     }
