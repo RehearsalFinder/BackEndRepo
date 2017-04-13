@@ -18,11 +18,11 @@ public class User implements HasId{
     String id;
 
     @Column
-    @JsonProperty("firstName")
+//    @JsonProperty("first-name")
     private String firstName;
 
     @Column
-    @JsonProperty("lastName")
+//    @JsonProperty("last-name")
     private String lastName;
 
     @Column

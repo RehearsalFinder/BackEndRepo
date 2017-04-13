@@ -1,5 +1,6 @@
 package com.theironyard.serializers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.theironyard.entities.HasId;
 import java.util.Map;
 import java.util.HashMap;
