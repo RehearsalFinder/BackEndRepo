@@ -18,7 +18,9 @@ public class SpacesSerializer extends JsonDataSerializer {
         RehearsalSpace space = (RehearsalSpace) entity;
 
         result.put("name", space.getName());
-        result.put("location", space.getLocation());
+        result.put("street-address", space.getStreetAddress());
+        result.put("city", space.getCity());
+        result.put("state", space.getState());
         result.put("cost-per-hour", space.getCostPerHour());
         result.put("square-feet", space.getSquareFeet());
         result.put("amenities", space.getAmenities());

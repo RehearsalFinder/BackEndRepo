@@ -1,7 +1,5 @@
 package com.theironyard.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.theironyard.entities.HasId;
 import com.theironyard.entities.RehearsalSpace;
 import com.theironyard.parsers.RootParser;
 import com.theironyard.serializers.RootSerializer;
@@ -10,11 +8,8 @@ import com.theironyard.services.RehearsalSpaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.ArrayList;
 
 @RestController
@@ -74,7 +69,7 @@ public class SpacesController {
         }
 
         existingSpaceInfo.setName(newSpaceInfo.getName());
-        existingSpaceInfo.setLocation(newSpaceInfo.getLocation());
+        existingSpaceInfo.setStreetAddress(newSpaceInfo.getStreetAddress());
         existingSpaceInfo.setSpaceHostName(newSpaceInfo.getName());
         existingSpaceInfo.setAmenities(newSpaceInfo.getAmenities());
         existingSpaceInfo.setAvailableEquipment(newSpaceInfo.getAvailableEquipment());

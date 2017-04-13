@@ -21,7 +21,17 @@ public class RehearsalSpace implements HasId{
     private String name;
 
     @Column
-    private String location;
+    @JsonProperty("street-address")
+    private String streetAddress;
+
+    @Column
+    private String city;
+
+    @Column
+    private String state;
+
+    @Column
+    private String zip;
 
     @Column
     @JsonProperty("cost-per-hour")
@@ -66,12 +76,12 @@ public class RehearsalSpace implements HasId{
     public RehearsalSpace() {
     }
 
-    public RehearsalSpace(String name, String location, String costPerHour,
+    public RehearsalSpace(String name, String streetAddress, String costPerHour,
                           String squareFeet, ArrayList<String> amenities, ArrayList<String> availableEquipment,
                           String spaceHostName, String hostEmail, String hostPhone, String featured,
-                          String description, String rules) {
+                          String description, String rules, String city, String state, String zip) {
         this.name = name;
-        this.location = location;
+        this.streetAddress = streetAddress;
         this.costPerHour = costPerHour;
         this.squareFeet = squareFeet;
         this.amenities = amenities;
@@ -82,6 +92,33 @@ public class RehearsalSpace implements HasId{
         this.featured = featured;
         this.description = description;
         this.rules = rules;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
     public User getUser() {
@@ -156,12 +193,12 @@ public class RehearsalSpace implements HasId{
         this.name = name;
     }
 
-    public String getLocation() {
-        return location;
+    public String getStreetAddress() {
+        return streetAddress;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
     }
 
     public String getCostPerHour() {
