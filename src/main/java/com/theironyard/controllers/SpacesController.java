@@ -43,8 +43,7 @@ public class SpacesController {
             String state = space.getState();
             String zip = space.getZip();
             String coordinates = getGeocode(streetAddress, city, state, zip);
-
-            System.out.println(coordinates);
+            space.setCoordinates(coordinates);
             spaces.save(space);
             response.setStatus(201);
 
@@ -131,21 +130,14 @@ public class SpacesController {
 
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        System.out.println("Inside getGeocode method! Addressed passed in is: "
-                + streetAddress + " " + city + ", " + state + " " + zip);
-
-//        String url = "https://maps.googleapis.com/maps/api/geocode/" +
-//                "json?address=" + streetAddress + ",+" + city + ",+" + state + "&key=AIzaSyCQTsAqb_RkAP84Ph9dSHT1cFZNZV6JzPo";
         String url = "https://maps.googleapis.com/maps/api/geocode/" +
-                "json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCQTsAqb_RkAP84Ph9dSHT1cFZNZV6JzPo";
+                "json?address=" + streetAddress + ",+" + city + ",+" + state +
+                "&key=AIzaSyCQTsAqb_RkAP84Ph9dSHT1cFZNZV6JzPo";
         RestTemplate template = new RestTemplate();
         ResponseEntity<Geocode> geocode = template.exchange(url, HttpMethod.GET, entity, Geocode.class);
-
-
         String lat = geocode.getBody().getLat();
         String lng = geocode.getBody().getLng();
-        String coordinates = lat + " " + lng;
+        String coordinates = lat + ", " + lng;
 
         return coordinates;
     }
