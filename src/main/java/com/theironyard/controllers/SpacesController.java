@@ -1,12 +1,16 @@
 package com.theironyard.controllers;
 
+import com.theironyard.google_geocode_entities.Geocode;
 import com.theironyard.entities.RehearsalSpace;
 import com.theironyard.parsers.RootParser;
 import com.theironyard.serializers.RootSerializer;
 import com.theironyard.serializers.SpacesSerializer;
 import com.theironyard.services.RehearsalSpaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
@@ -34,12 +38,19 @@ public class SpacesController {
             {
         RehearsalSpace space = parser.getData().getEntity();
         try {
+            String streetAddress = space.getStreetAddress();
+            String city = space.getCity();
+            String state = space.getState();
+            String zip = space.getZip();
+            String coordinates = getGeocode(streetAddress, city, state, zip);
+
+            System.out.println(coordinates);
             spaces.save(space);
             response.setStatus(201);
+
         } catch (Exception e) {
             e.getMessage();
         }
-        System.out.println(space.getDescription());
         return rootSerializer.serializeOne("/spaces", space, spacesSerializer);
     }
 
@@ -114,6 +125,29 @@ public class SpacesController {
             e.getMessage();
         }
         return rootSerializer.serializeMany("/spaces/featured", featuredList, spacesSerializer);
+    }
+
+    public String getGeocode(String streetAddress, String city, String state, String zip) {
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        System.out.println("Inside getGeocode method! Addressed passed in is: "
+                + streetAddress + " " + city + ", " + state + " " + zip);
+
+//        String url = "https://maps.googleapis.com/maps/api/geocode/" +
+//                "json?address=" + streetAddress + ",+" + city + ",+" + state + "&key=AIzaSyCQTsAqb_RkAP84Ph9dSHT1cFZNZV6JzPo";
+        String url = "https://maps.googleapis.com/maps/api/geocode/" +
+                "json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCQTsAqb_RkAP84Ph9dSHT1cFZNZV6JzPo";
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<Geocode> geocode = template.exchange(url, HttpMethod.GET, entity, Geocode.class);
+
+
+        String lat = geocode.getBody().getLat();
+        String lng = geocode.getBody().getLng();
+        String coordinates = lat + " " + lng;
+
+        return coordinates;
     }
 
 }

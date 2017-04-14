@@ -15,7 +15,9 @@ public class JsonApiDataParser<T> {
             @JsonProperty("type") String type,
             @JsonProperty("id") String id,
             @JsonProperty("attributes") T attributes,
-            @JsonProperty("relationships") Map<String, RootParser> relationships
+            @JsonProperty("relationships") Map<String, RootParser> relationships,
+            @JsonProperty("geometry") String geometry,
+            @JsonProperty("location") String location
     ) {
         this.type = type;
         this.id = id;
