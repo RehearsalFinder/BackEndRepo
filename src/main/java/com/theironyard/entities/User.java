@@ -39,6 +39,13 @@ public class User implements HasId{
     @Column
     private String phone;
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getPhone() {
         return phone;
@@ -94,7 +101,7 @@ public class User implements HasId{
             throws PasswordStorage.CannotPerformOperationException {
         this.firstName = firstName;
         this.lastName = lastName;
-        setPassword(password);
+        this.password = password;
         this.email = email;
         this.birthday = birthday;
         this.phone = phone;
@@ -103,15 +110,15 @@ public class User implements HasId{
     public User() {
     }
 
-    private String getPasswordHash() {
-        return password;
-    }
-
-    public void setPassword(String password) throws PasswordStorage.CannotPerformOperationException {
-        this.password = PasswordStorage.createHash(password);
-    }
-
-    public boolean verifyPassword(String password) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
-        return PasswordStorage.verifyPassword(password, getPasswordHash());
-    }
+//    private String getPasswordHash() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) throws PasswordStorage.CannotPerformOperationException {
+//        this.password = PasswordStorage.createHash(password);
+//    }
+//
+//    public boolean verifyPassword(String password) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
+//        return PasswordStorage.verifyPassword(password, getPasswordHash());
+//    }
 }

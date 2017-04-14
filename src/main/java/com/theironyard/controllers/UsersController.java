@@ -9,6 +9,9 @@ import com.theironyard.services.UserRepository;
 import com.theironyard.utilities.JsonUser;
 import com.theironyard.utilities.PasswordStorage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +26,9 @@ public class UsersController {
     @Autowired
     UserRepository users;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     RootSerializer rootSerializer = new RootSerializer();
     UserSerializer userSerializer = new UserSerializer();
 
@@ -32,6 +38,7 @@ public class UsersController {
         String userEmail = user.getEmail();
         User user1 = users.findFirstByEmail(userEmail);
         if (user1 == null) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             users.save(user);
             response.setStatus(201);
         } else try {
@@ -42,22 +49,30 @@ public class UsersController {
         return rootSerializer.serializeOne("/users", user, userSerializer);
     }
 
-
-    @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public Map<String, Object> login(@RequestBody RootParser<JsonUser> parser, HttpServletResponse response)
-            throws Exception {
-        JsonUser jsonUser = parser.getData().getEntity();
-        String password = jsonUser.getPassword();
-        String email = jsonUser.getEmail();
+    @RequestMapping(path = "/users/current", method = RequestMethod.GET)
+    public Map<String, Object> currentUser() {
+        Authentication u = SecurityContextHolder.getContext().getAuthentication();
+        String email = u.getName();
         User user = users.findFirstByEmail(email);
-        if (user != null) {
-            if (!user.verifyPassword(password)) {
-                throw new Exception("Wrong credentials!");
-            }
-        } else throw new Exception("User account does not exist");
-        response.setStatus(201);
-        return rootSerializer.serializeOne("/login", user, userSerializer);
+        return rootSerializer.serializeOne("/users", user, userSerializer);
     }
+
+
+//    @RequestMapping(path = "/login", method = RequestMethod.POST)
+//    public Map<String, Object> login(@RequestBody RootParser<JsonUser> parser, HttpServletResponse response)
+//            throws Exception {
+//        JsonUser jsonUser = parser.getData().getEntity();
+//        String password = jsonUser.getPassword();
+//        String email = jsonUser.getEmail();
+//        User user = users.findFirstByEmail(email);
+//        if (user != null) {
+//            if (!user.verifyPassword(password)) {
+//                throw new Exception("Wrong credentials!");
+//            }
+//        } else throw new Exception("User account does not exist");
+//        response.setStatus(201);
+//        return rootSerializer.serializeOne("/login", user, userSerializer);
+//    }
 
     @RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
     public Map<String, Object> getUser(@PathVariable("id") String id) {
