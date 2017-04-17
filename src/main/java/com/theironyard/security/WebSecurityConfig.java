@@ -40,13 +40,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Allow login without being logged in
                 .antMatchers(HttpMethod.POST, "/login")
                 .permitAll()
-                // Allow someone to view all rehearsal spaces when they pull up the homepage
+                // Allow someone to view all rehearsal spaces
                 .antMatchers(HttpMethod.GET, "/spaces")
                 .permitAll()
                 // Allow someone to view a single rehearsal space without being logged in
                 .antMatchers(HttpMethod.GET, "/spaces/{id}")
                 .permitAll()
-                // Allow someone to view all featured rehearsal spaces without being logged in
+                // Allow someone to view all featured rehearsal spaces on the homepage
                 .antMatchers(HttpMethod.GET, "/spaces/featured")
                 .permitAll()
                 // All other requests must be authenticated

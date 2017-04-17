@@ -1,7 +1,7 @@
 package com.theironyard.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.theironyard.utilities.PasswordStorage;
+//import com.theironyard.utilities.PasswordStorage;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -98,7 +98,7 @@ public class User implements HasId{
     }
 
     public User(String firstName, String lastName, String password, String email, String birthday, String phone)
-            throws PasswordStorage.CannotPerformOperationException {
+            {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
