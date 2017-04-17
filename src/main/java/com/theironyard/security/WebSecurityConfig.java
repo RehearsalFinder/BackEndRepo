@@ -1,5 +1,6 @@
 package com.theironyard.security;
 
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,6 +43,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Allow someone to view all rehearsal spaces
                 .antMatchers(HttpMethod.GET, "/spaces")
                 .permitAll()
+
+
+                // Temp allow anyone to create a rehearsal space
+                .antMatchers(HttpMethod.POST, "/spaces")
+                .permitAll()
+
+
                 // Allow someone to view a single rehearsal space without being logged in
                 .antMatchers(HttpMethod.GET, "/spaces/{id}")
                 .permitAll()

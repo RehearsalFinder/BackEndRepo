@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "photoPosts")
-public class PhotoPost implements HasId {
+public class Photo implements HasId {
     private static final long serialVersionUID = 1L;
 
     @Id

@@ -2,11 +2,11 @@ package com.theironyard.controllers;
 
 import java.util.Map;
 
-import com.theironyard.entities.PhotoPost;
+import com.theironyard.entities.Photo;
 import com.theironyard.parsers.RootParser;
 import com.theironyard.serializers.PhotoPostSerializer;
 import com.theironyard.serializers.RootSerializer;
-import com.theironyard.services.PhotoPostRepository;
+import com.theironyard.services.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +17,13 @@ import com.amazonaws.services.s3.model.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-public class PhotoPostController {
+public class PhotoController {
 
     PhotoPostSerializer photoPostSerializer;
     RootSerializer rootSerializer;
 
     @Autowired
-    PhotoPostRepository photos;
+    PhotoRepository photos;
 
     @Value("${cloud.aws.s3.bucket}")
     String bucket;
@@ -34,14 +34,14 @@ public class PhotoPostController {
 
     @RequestMapping(path = "/photo-posts", method = RequestMethod.GET)
     public Map<String, Object> findAllPost() {
-        Iterable<PhotoPost> results = photos.findAll();
+        Iterable<Photo> results = photos.findAll();
 
         return rootSerializer.serializeMany("/photo-posts", results, photoPostSerializer);
     }
 
     @RequestMapping(path = "/photo-posts", method = RequestMethod.POST)
-    public Map<String, Object> storePost(@RequestBody RootParser<PhotoPost> parser) {
-        PhotoPost photo = parser.getData().getEntity();
+    public Map<String, Object> storePost(@RequestBody RootParser<Photo> parser) {
+        Photo photo = parser.getData().getEntity();
         photos.save(photo);
 
         return rootSerializer.serializeOne(
@@ -53,8 +53,8 @@ public class PhotoPostController {
     @RequestMapping(path = "/photo-posts/upload", method = RequestMethod.POST)
     public Map<String, Object> uploadPost(@RequestParam("photo") MultipartFile file, @RequestParam("caption") String caption)
             throws Exception {
-        // Creating a new PhotoPost Entity
-        PhotoPost photo = new PhotoPost();
+        // Creating a new Photo Entity
+        Photo photo = new Photo();
         // Set properties other than the file
         photo.setCaption(caption);
 
