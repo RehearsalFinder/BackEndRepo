@@ -1,18 +1,17 @@
 package com.theironyard.entities;
+
 import javax.persistence.*;
-
 import org.hibernate.annotations.GenericGenerator;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name = "photo_posts")
+@Table(name = "photoPosts")
 public class PhotoPost implements HasId {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     String id;
 
     @Column

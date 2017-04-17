@@ -11,14 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 
 
 @RestController
 @CrossOrigin(origins = "*")
-class PhotoPostController {
+public class PhotoPostController {
 
     PhotoPostSerializer photoPostSerializer;
     RootSerializer rootSerializer;
@@ -32,10 +31,6 @@ class PhotoPostController {
     @Autowired
     AmazonS3Client s3;
 
-    public PhotoPostController() {
-        photoPostSerializer = new PhotoPostSerializer();
-        rootSerializer = new RootSerializer();
-    }
 
     @RequestMapping(path = "/photo-posts", method = RequestMethod.GET)
     public Map<String, Object> findAllPost() {
