@@ -1,12 +1,10 @@
 package com.theironyard.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theironyard.entities.User;
 import com.theironyard.parsers.RootParser;
 import com.theironyard.serializers.RootSerializer;
 import com.theironyard.serializers.UserSerializer;
 import com.theironyard.services.UserRepository;
-import com.theironyard.utilities.JsonUser;
 //import com.theironyard.utilities.PasswordStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,8 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.Map;
 
 @RestController
