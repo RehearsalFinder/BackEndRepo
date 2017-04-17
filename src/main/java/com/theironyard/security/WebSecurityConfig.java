@@ -43,13 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Allow someone to view all rehearsal spaces
                 .antMatchers(HttpMethod.GET, "/spaces")
                 .permitAll()
-
-
-                // Temp allow anyone to create a rehearsal space
-                .antMatchers(HttpMethod.POST, "/spaces")
-                .permitAll()
-
-
                 // Allow someone to view a single rehearsal space without being logged in
                 .antMatchers(HttpMethod.GET, "/spaces/{id}")
                 .permitAll()
