@@ -4,12 +4,16 @@ import java.io.File;
 import java.util.Map;
 
 import com.theironyard.entities.Photo;
+import com.theironyard.entities.User;
 import com.theironyard.parsers.RootParser;
 import com.theironyard.serializers.PhotoPostSerializer;
 import com.theironyard.serializers.RootSerializer;
 import com.theironyard.services.PhotoRepository;
+import com.theironyard.services.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -25,6 +29,9 @@ public class PhotoController {
 
     @Autowired
     PhotoRepository photos;
+
+    @Autowired
+    UserRepository users;
 
     @Value("${cloud.aws.s3.bucket}")
     String bucket;
@@ -51,15 +58,17 @@ public class PhotoController {
                 photoPostSerializer);
     }
 
-    @RequestMapping(path = "/photo-posts/upload", method = RequestMethod.POST)
-    public Map<String, Object> uploadPost(@RequestParam("photo") MultipartFile file,
-                                          @RequestParam("caption") String caption)
+    @RequestMapping(path = "/user-profile/upload", method = RequestMethod.POST)
+    public Map<String, Object> uploadPost(@RequestParam("photo") MultipartFile file)
             throws Exception {
+
+        Authentication u = SecurityContextHolder.getContext().getAuthentication();
+        User user = users.findFirstByEmail(u.getName());
+
         // Creating a new Photo Entity
         Photo photo = new Photo();
         // Set properties other than the file
-        photo.setCaption(caption);
-
+        photo.setUser(user);
 
         photo
                 .setPhotoUrl("https://s3.amazonaws.com/" + bucket + "/" + file.getOriginalFilename());

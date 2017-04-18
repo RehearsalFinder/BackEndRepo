@@ -18,7 +18,8 @@ public class PhotoPostSerializer extends JsonDataSerializer {
         Photo post = (Photo) entity;
 
         result.put("photo-url", post.getPhotoUrl());
-        result.put("caption", post.getCaption());
+//        result.put("caption", post.getCaption());
+        result.put("user", post.getUser().getId());
 
         return result;
     }

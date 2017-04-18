@@ -92,6 +92,7 @@ public class SpacesController {
         existingSpaceInfo.setCity(newSpaceInfo.getCity());
         existingSpaceInfo.setState(newSpaceInfo.getState());
         existingSpaceInfo.setZip(newSpaceInfo.getZip());
+        existingSpaceInfo.setSpaceHostName(newSpaceInfo.getSpaceHostName());
 
         try {
             spaces.save(existingSpaceInfo);

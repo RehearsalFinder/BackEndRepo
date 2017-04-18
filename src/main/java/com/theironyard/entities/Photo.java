@@ -5,7 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name = "photoPosts")
+@Table(name = "profilePhoto")
 public class Photo implements HasId {
     private static final long serialVersionUID = 1L;
 
@@ -18,15 +18,19 @@ public class Photo implements HasId {
     @JsonProperty("photo-url")
     String photoUrl;
 
-    @Column
-    String caption;
+    @OneToOne
+    User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public void setId(String val) {
         this.id = val;
-    }
-
-    public void setCaption(String val) {
-        this.caption = val;
     }
 
     public void setPhotoUrl(String val) {
@@ -35,10 +39,6 @@ public class Photo implements HasId {
 
     public String getId() {
         return this.id;
-    }
-
-    public String getCaption() {
-        return this.caption;
     }
 
     public String getPhotoUrl() {
