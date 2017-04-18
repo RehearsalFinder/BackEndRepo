@@ -89,6 +89,9 @@ public class SpacesController {
         existingSpaceInfo.setHostEmail(newSpaceInfo.getHostEmail());
         existingSpaceInfo.setDescription(newSpaceInfo.getDescription());
         existingSpaceInfo.setRules(newSpaceInfo.getRules());
+        existingSpaceInfo.setCity(newSpaceInfo.getCity());
+        existingSpaceInfo.setState(newSpaceInfo.getState());
+        existingSpaceInfo.setZip(newSpaceInfo.getZip());
 
         try {
             spaces.save(existingSpaceInfo);

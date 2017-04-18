@@ -1,5 +1,6 @@
 package com.theironyard.controllers;
 
+import java.io.File;
 import java.util.Map;
 
 import com.theironyard.entities.Photo;
