@@ -51,7 +51,8 @@ public class PhotoController {
     }
 
     @RequestMapping(path = "/photo-posts/upload", method = RequestMethod.POST)
-    public Map<String, Object> uploadPost(@RequestParam("photo") MultipartFile file, @RequestParam("caption") String caption)
+    public Map<String, Object> uploadPost(@RequestParam("photo") MultipartFile file,
+                                          @RequestParam("caption") String caption)
             throws Exception {
         // Creating a new Photo Entity
         Photo photo = new Photo();
