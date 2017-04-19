@@ -95,6 +95,15 @@ public class SpacesController {
 
         existingSpaceInfo.setName(newSpaceInfo.getName());
         existingSpaceInfo.setStreetAddress(newSpaceInfo.getStreetAddress());
+        existingSpaceInfo.setCity(newSpaceInfo.getCity());
+        existingSpaceInfo.setState(newSpaceInfo.getState());
+        existingSpaceInfo.setZip(newSpaceInfo.getZip());
+
+        ArrayList<Double> coordinates = getGeocode(existingSpaceInfo.getStreetAddress(),
+                existingSpaceInfo.getCity(), existingSpaceInfo.getState(), existingSpaceInfo.getZip());
+
+        existingSpaceInfo.setCoordinates(coordinates);
+
         existingSpaceInfo.setSpaceHostName(newSpaceInfo.getName());
         existingSpaceInfo.setAmenities(newSpaceInfo.getAmenities());
         existingSpaceInfo.setAvailableEquipment(newSpaceInfo.getAvailableEquipment());
@@ -105,9 +114,7 @@ public class SpacesController {
         existingSpaceInfo.setHostEmail(newSpaceInfo.getHostEmail());
         existingSpaceInfo.setDescription(newSpaceInfo.getDescription());
         existingSpaceInfo.setRules(newSpaceInfo.getRules());
-        existingSpaceInfo.setCity(newSpaceInfo.getCity());
-        existingSpaceInfo.setState(newSpaceInfo.getState());
-        existingSpaceInfo.setZip(newSpaceInfo.getZip());
+
         existingSpaceInfo.setSpaceHostName(newSpaceInfo.getSpaceHostName());
 
         try {
