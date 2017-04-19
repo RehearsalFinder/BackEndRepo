@@ -62,33 +62,28 @@ public class PhotoController {
                 photoPostSerializer);
     }
 
-    @RequestMapping(path = "/user-profile/upload", method = RequestMethod.POST)
-    public Map<String, Object> uploadPost(@RequestParam("photo") MultipartFile file)
-            throws Exception {
-
+    @RequestMapping(path = "/images/upload", method = RequestMethod.POST)
+    public Map<String, Object> uploadImage(@RequestParam("photo") MultipartFile file)
+             {
         Authentication u = SecurityContextHolder.getContext().getAuthentication();
         User user = users.findFirstByEmail(u.getName());
-
-        // Creating a new Photo Entity
         Photo photo = new Photo();
-        // Set properties other than the file
         photo.setUser(user);
 
         photo
                 .setPhotoUrl("https://s3.amazonaws.com/" + bucket + "/" + file.getOriginalFilename());
 
-        // Setup S3 request with bucket name, filename, file contents, and empty meta data
-        PutObjectRequest s3Req = new PutObjectRequest(
-                bucket,
-                file.getOriginalFilename(),
-                file.getInputStream(),
-                new ObjectMetadata());
-
-        // Save the object to s3
-        s3.putObject(s3Req);
-
-        photos.save(photo);
-
+        try {
+            PutObjectRequest s3Req = new PutObjectRequest(
+                    bucket,
+                    file.getOriginalFilename(),
+                    file.getInputStream(),
+                    new ObjectMetadata());
+            s3.putObject(s3Req);
+            photos.save(photo);
+        } catch (Exception e) {
+            e.getMessage();
+        }
         return rootSerializer.serializeOne(
                 "/photo-posts/" + photo.getId(),
                 photo,

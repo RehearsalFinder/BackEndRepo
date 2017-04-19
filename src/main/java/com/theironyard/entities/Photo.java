@@ -5,7 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name = "profilePhoto")
+@Table(name = "photos")
 public class Photo implements HasId {
     private static final long serialVersionUID = 1L;
 
