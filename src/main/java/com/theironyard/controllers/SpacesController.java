@@ -1,14 +1,18 @@
 package com.theironyard.controllers;
 
+import com.theironyard.entities.User;
 import com.theironyard.google_geocode_entities.Geocode;
 import com.theironyard.entities.RehearsalSpace;
 import com.theironyard.parsers.RootParser;
 import com.theironyard.serializers.RootSerializer;
 import com.theironyard.serializers.SpacesSerializer;
 import com.theironyard.services.RehearsalSpaceRepository;
+import com.theironyard.services.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,6 +28,9 @@ public class SpacesController {
     @Autowired
     RehearsalSpaceRepository spaces;
 
+    @Autowired
+    UserRepository users;
+
     RootSerializer rootSerializer = new RootSerializer();
     SpacesSerializer spacesSerializer = new SpacesSerializer();
 
@@ -35,10 +42,14 @@ public class SpacesController {
     }
 
     @RequestMapping(path = "/spaces", method = RequestMethod.POST)
-    public Map<String, Object> createSpace(@RequestBody RootParser<RehearsalSpace> parser, HttpServletResponse response) {
+    public Map<String, Object> createSpace(@RequestBody RootParser<RehearsalSpace> parser,
+                                           HttpServletResponse response) {
         RehearsalSpace space = parser.getData().getEntity();
         String spaceName = space.getName();
         RehearsalSpace checkSpace = spaces.findFirstByName(spaceName);
+        Authentication u = SecurityContextHolder.getContext().getAuthentication();
+        User user = users.findFirstByEmail(u.getName());
+
         if (checkSpace == null) {
             try {
                 String streetAddress = space.getStreetAddress();
@@ -47,8 +58,9 @@ public class SpacesController {
                 String zip = space.getZip();
                 String coordinates = getGeocode(streetAddress, city, state, zip);
                 space.setCoordinates(coordinates);
+                space.setUser(user);
                 spaces.save(space);
-                response.setStatus(201, "Y'all front-enders are stupid!");
+                response.setStatus(201);
 
             } catch (Exception e) {
                 e.getMessage();
@@ -78,10 +90,8 @@ public class SpacesController {
     @RequestMapping(path = "/spaces/{id}", method = RequestMethod.PATCH)
     public Map<String, Object> updateSpaces(@PathVariable("id") String id,
                                             @RequestBody RootParser<RehearsalSpace> parser) {
-        RehearsalSpace existingSpaceInfo = new RehearsalSpace();
         RehearsalSpace newSpaceInfo = parser.getData().getEntity();
-
-        existingSpaceInfo = spaces.findFirstById(id);
+        RehearsalSpace existingSpaceInfo = spaces.findFirstById(id);
 
         existingSpaceInfo.setName(newSpaceInfo.getName());
         existingSpaceInfo.setStreetAddress(newSpaceInfo.getStreetAddress());

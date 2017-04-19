@@ -74,7 +74,7 @@ public class RehearsalSpace implements HasId{
     private String coordinates;
 
     @ManyToOne
-    User user;
+    private User user;
 
     public RehearsalSpace() {
     }

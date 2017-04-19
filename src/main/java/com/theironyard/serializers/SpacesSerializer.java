@@ -31,6 +31,7 @@ public class SpacesSerializer extends JsonDataSerializer {
         result.put("featured", space.getFeatured());
         result.put("description", space.getDescription());
         result.put("rules", space.getRules());
+        result.put("coordinates", space.getCoordinates());
 
         return result;
     }
