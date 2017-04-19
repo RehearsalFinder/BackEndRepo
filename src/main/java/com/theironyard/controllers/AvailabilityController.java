@@ -35,9 +35,8 @@ public class AvailabilityController {
     UserRepository users;
 
 
-    @RequestMapping(path = "/spaces/availabilities", method = RequestMethod.POST)
-    public Map<String, Object> createAvailability(@RequestBody RootParser<Availability> parser,
-                                                  @PathVariable("id") String id) {
+    @RequestMapping(path = "/availabilities", method = RequestMethod.POST)
+    public Map<String, Object> createAvailability(@RequestBody RootParser<Availability> parser) {
         Authentication u = SecurityContextHolder.getContext().getAuthentication();
         String email = u.getName();
         User user = users.findFirstByEmail(email);
@@ -54,7 +53,7 @@ public class AvailabilityController {
                 e.getMessage();
             }
         }
-        return rootSerializer.serializeOne("/spaces/" + id + "/availabilities",
+        return rootSerializer.serializeOne("/availabilities/" + availability.getId(),
                 availability, availabilitySerializer);
     }
 
