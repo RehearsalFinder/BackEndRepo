@@ -38,6 +38,8 @@ public class SpacesSerializer extends JsonDataSerializer {
     }
 
     public Map<String, String> getRelationshipUrls() {
-        return new HashMap<String, String>();
+        return new HashMap<String, String>() {{
+            put("availabilities", "spaces/{id}/availabilities");
+        }};
     }
 }
