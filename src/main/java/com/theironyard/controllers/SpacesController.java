@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -36,18 +37,28 @@ public class SpacesController {
     @RequestMapping(path = "/spaces", method = RequestMethod.POST)
     public Map<String, Object> createSpace(@RequestBody RootParser<RehearsalSpace> parser, HttpServletResponse response) {
         RehearsalSpace space = parser.getData().getEntity();
-        try {
-            String streetAddress = space.getStreetAddress();
-            String city = space.getCity();
-            String state = space.getState();
-            String zip = space.getZip();
-            String coordinates = getGeocode(streetAddress, city, state, zip);
-            space.setCoordinates(coordinates);
-            spaces.save(space);
-            response.setStatus(201, "Y'all front-enders are stupid!");
+        String spaceName = space.getName();
+        RehearsalSpace checkSpace = spaces.findFirstByName(spaceName);
+        if (checkSpace == null) {
+            try {
+                String streetAddress = space.getStreetAddress();
+                String city = space.getCity();
+                String state = space.getState();
+                String zip = space.getZip();
+                String coordinates = getGeocode(streetAddress, city, state, zip);
+                space.setCoordinates(coordinates);
+                spaces.save(space);
+                response.setStatus(201, "Y'all front-enders are stupid!");
 
-        } catch (Exception e) {
-            e.getMessage();
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        } else {
+            try {
+                response.sendError(400, "Rehearsal space name already exists!");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return rootSerializer.serializeOne("/spaces", space, spacesSerializer);
     }

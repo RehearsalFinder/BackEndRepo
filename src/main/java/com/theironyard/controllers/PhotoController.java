@@ -4,11 +4,13 @@ import java.io.File;
 import java.util.Map;
 
 import com.theironyard.entities.Photo;
+import com.theironyard.entities.RehearsalSpace;
 import com.theironyard.entities.User;
 import com.theironyard.parsers.RootParser;
 import com.theironyard.serializers.PhotoPostSerializer;
 import com.theironyard.serializers.RootSerializer;
 import com.theironyard.services.PhotoRepository;
+import com.theironyard.services.RehearsalSpaceRepository;
 import com.theironyard.services.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +34,9 @@ public class PhotoController {
 
     @Autowired
     UserRepository users;
+
+    @Autowired
+    RehearsalSpaceRepository spaces;
 
     @Value("${cloud.aws.s3.bucket}")
     String bucket;
@@ -62,13 +67,45 @@ public class PhotoController {
                 photoPostSerializer);
     }
 
-    @RequestMapping(path = "/images/upload", method = RequestMethod.POST)
-    public Map<String, Object> uploadImage(@RequestParam("photo") MultipartFile file)
+    @RequestMapping(path = "/images/users/upload", method = RequestMethod.POST)
+    public Map<String, Object> uploadUserImage(@RequestParam("photo") MultipartFile file)
              {
         Authentication u = SecurityContextHolder.getContext().getAuthentication();
         User user = users.findFirstByEmail(u.getName());
         Photo photo = new Photo();
         photo.setUser(user);
+
+        photo
+                .setPhotoUrl("https://s3.amazonaws.com/" + bucket + "/" + file.getOriginalFilename());
+
+        try {
+            PutObjectRequest s3Req = new PutObjectRequest(
+                    bucket,
+                    file.getOriginalFilename(),
+                    file.getInputStream(),
+                    new ObjectMetadata());
+            s3.putObject(s3Req);
+            photos.save(photo);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        return rootSerializer.serializeOne(
+                "/photo-posts/" + photo.getId(),
+                photo,
+                photoPostSerializer);
+    }
+
+    @RequestMapping(path = "/images/spaces/{id}/upload", method = RequestMethod.POST)
+    public Map<String, Object> uploadSpaceImage(@RequestParam("photo") MultipartFile file,
+                                                @PathVariable("id") String id)
+    {
+        Authentication u = SecurityContextHolder.getContext().getAuthentication();
+        User user = users.findFirstByEmail(u.getName());
+        Photo photo = new Photo();
+        photo.setUser(user);
+
+        RehearsalSpace space = spaces.findFirstById(id);
+        photo.setSpace(space);
 
         photo
                 .setPhotoUrl("https://s3.amazonaws.com/" + bucket + "/" + file.getOriginalFilename());

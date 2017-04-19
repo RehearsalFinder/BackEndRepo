@@ -21,6 +21,17 @@ public class Photo implements HasId {
     @OneToOne
     User user;
 
+    @ManyToOne
+    RehearsalSpace space;
+
+    public RehearsalSpace getSpace() {
+        return space;
+    }
+
+    public void setSpace(RehearsalSpace space) {
+        this.space = space;
+    }
+
     public User getUser() {
         return user;
     }
