@@ -56,7 +56,7 @@ public class SpacesController {
                 String city = space.getCity();
                 String state = space.getState();
                 String zip = space.getZip();
-                String coordinates = getGeocode(streetAddress, city, state, zip);
+                ArrayList<Double> coordinates = getGeocode(streetAddress, city, state, zip);
                 space.setCoordinates(coordinates);
                 space.setUser(user);
                 spaces.save(space);
@@ -145,7 +145,7 @@ public class SpacesController {
         return rootSerializer.serializeMany("/spaces/featured", featuredList, spacesSerializer);
     }
 
-    public String getGeocode(String streetAddress, String city, String state, String zip) {
+    public ArrayList<Double> getGeocode(String streetAddress, String city, String state, String zip) {
 
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -154,9 +154,12 @@ public class SpacesController {
                 "&key=AIzaSyCQTsAqb_RkAP84Ph9dSHT1cFZNZV6JzPo";
         RestTemplate template = new RestTemplate();
         ResponseEntity<Geocode> geocode = template.exchange(url, HttpMethod.GET, entity, Geocode.class);
-        String lat = geocode.getBody().getLat();
-        String lng = geocode.getBody().getLng();
-        String coordinates = lat + ", " + lng;
+        Double lat = Double.valueOf(geocode.getBody().getLat());
+        Double lng = Double.valueOf(geocode.getBody().getLng());
+        ArrayList <Double> coordinates = new ArrayList<>();
+        coordinates.add(0, lat);
+        coordinates.add(1, lng);
+//        String coordinates = lat + ", " + lng;
 
         return coordinates;
     }

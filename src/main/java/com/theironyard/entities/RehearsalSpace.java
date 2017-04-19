@@ -71,7 +71,7 @@ public class RehearsalSpace implements HasId{
     private String rules;
 
     @Column
-    private String coordinates;
+    private ArrayList<Double> coordinates;
 
     @ManyToOne
     private User user;
@@ -82,7 +82,7 @@ public class RehearsalSpace implements HasId{
     public RehearsalSpace(String name, String streetAddress, String costPerHour,
                           String squareFeet, ArrayList<String> amenities, ArrayList<String> availableEquipment,
                           String spaceHostName, String hostEmail, String hostPhone, String featured,
-                          String description, String rules, String city, String state, String zip, String coordinates) {
+                          String description, String rules, String city, String state, String zip, ArrayList<Double> coordinates) {
         this.name = name;
         this.streetAddress = streetAddress;
         this.costPerHour = costPerHour;
@@ -101,11 +101,11 @@ public class RehearsalSpace implements HasId{
         this.coordinates = coordinates;
     }
 
-    public String getCoordinates() {
+    public ArrayList<Double> getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(String coordinates) {
+    public void setCoordinates(ArrayList coordinates) {
         this.coordinates = coordinates;
     }
 
