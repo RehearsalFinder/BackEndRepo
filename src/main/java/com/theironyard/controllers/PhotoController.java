@@ -24,8 +24,8 @@ import com.amazonaws.services.s3.model.*;
 @CrossOrigin(origins = "*")
 public class PhotoController {
 
-    PhotoPostSerializer photoPostSerializer;
-    RootSerializer rootSerializer;
+    PhotoPostSerializer photoPostSerializer = new PhotoPostSerializer();
+    RootSerializer rootSerializer = new RootSerializer();
 
     @Autowired
     PhotoRepository photos;
@@ -49,9 +49,13 @@ public class PhotoController {
 
     @RequestMapping(path = "/photo-posts", method = RequestMethod.POST)
     public Map<String, Object> storePost(@RequestBody RootParser<Photo> parser) {
-        Photo photo = parser.getData().getEntity();
-        photos.save(photo);
-
+        Photo photo = new Photo();
+        try {
+            photo = parser.getData().getEntity();
+            photos.save(photo);
+        } catch (Exception e) {
+            e.getMessage();
+        }
         return rootSerializer.serializeOne(
                 "/photo-posts/" + photo.getId(),
                 photo,

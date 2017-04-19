@@ -11,6 +11,7 @@ import org.springframework.http.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -33,8 +34,7 @@ public class SpacesController {
     }
 
     @RequestMapping(path = "/spaces", method = RequestMethod.POST)
-    public Map<String, Object> createSpace(@RequestBody RootParser<RehearsalSpace> parser, HttpServletResponse response)
-            {
+    public Map<String, Object> createSpace(@RequestBody RootParser<RehearsalSpace> parser, HttpServletResponse response) {
         RehearsalSpace space = parser.getData().getEntity();
         try {
             String streetAddress = space.getStreetAddress();
@@ -44,7 +44,7 @@ public class SpacesController {
             String coordinates = getGeocode(streetAddress, city, state, zip);
             space.setCoordinates(coordinates);
             spaces.save(space);
-            response.setStatus(201);
+            response.setStatus(201, "Y'all front-enders are stupid!");
 
         } catch (Exception e) {
             e.getMessage();
@@ -53,8 +53,7 @@ public class SpacesController {
     }
 
     @RequestMapping(path = "/spaces/{id}", method = RequestMethod.DELETE)
-    public void deleteSpace(@PathVariable ("id") String id, HttpServletResponse response)
-            {
+    public void deleteSpace(@PathVariable("id") String id, HttpServletResponse response) {
         RehearsalSpace deleteSpace = new RehearsalSpace();
         try {
             deleteSpace = spaces.findFirstById(id);
@@ -66,16 +65,12 @@ public class SpacesController {
     }
 
     @RequestMapping(path = "/spaces/{id}", method = RequestMethod.PATCH)
-    public Map<String, Object> updateSpaces(@PathVariable ("id") String id,
+    public Map<String, Object> updateSpaces(@PathVariable("id") String id,
                                             @RequestBody RootParser<RehearsalSpace> parser) {
         RehearsalSpace existingSpaceInfo = new RehearsalSpace();
         RehearsalSpace newSpaceInfo = parser.getData().getEntity();
 
-        try {
-            existingSpaceInfo = spaces.findFirstById(id);
-        } catch (Exception e) {
-            e.getMessage();
-        }
+        existingSpaceInfo = spaces.findFirstById(id);
 
         existingSpaceInfo.setName(newSpaceInfo.getName());
         existingSpaceInfo.setStreetAddress(newSpaceInfo.getStreetAddress());
@@ -106,14 +101,14 @@ public class SpacesController {
     }
 
     @RequestMapping(path = "/spaces/{id}", method = RequestMethod.GET)
-    public Map<String, Object> getSpace(@PathVariable("id") String id, HttpServletResponse response){
-            RehearsalSpace space = new RehearsalSpace();
-            try {
-                space = spaces.findFirstById(id);
-                response.setStatus(200);
-            } catch (Exception e) {
-                e.getMessage();
-            }
+    public Map<String, Object> getSpace(@PathVariable("id") String id, HttpServletResponse response) {
+        RehearsalSpace space = new RehearsalSpace();
+        try {
+            space = spaces.findFirstById(id);
+            response.setStatus(200);
+        } catch (Exception e) {
+            e.getMessage();
+        }
         return rootSerializer.serializeOne("/spaces/" + id, space, spacesSerializer);
     }
 
