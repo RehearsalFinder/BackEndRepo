@@ -35,14 +35,14 @@ public class AvailabilityController {
     UserRepository users;
 
 
-    @RequestMapping(path = "/spaces/{id}/availabilities", method = RequestMethod.POST)
+    @RequestMapping(path = "/spaces/availabilities", method = RequestMethod.POST)
     public Map<String, Object> createAvailability(@RequestBody RootParser<Availability> parser,
                                                   @PathVariable("id") String id) {
         Authentication u = SecurityContextHolder.getContext().getAuthentication();
         String email = u.getName();
         User user = users.findFirstByEmail(email);
 
-        RehearsalSpace space = spaces.findFirstById(id);
+        RehearsalSpace space = spaces.findFirstById(parser.getData().getRelationshipId("space"));
 
         Availability availability = parser.getData().getEntity();
         if (user != null) {
