@@ -19,4 +19,6 @@ public interface AvailabilityRepository extends CrudRepository<Availability, Str
 
     Availability findFirstById(String id);
 
+    ArrayList<Availability> findAllByClaimedBy(User user);
+
 }

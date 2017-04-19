@@ -72,6 +72,14 @@ public class AvailabilityController {
                 availList, availabilitySerializer);
     }
 
+    @RequestMapping(path = "/users/{id}/availabilities", method = RequestMethod.GET)
+    public Map<String, Object> getUsersAvailabilities(@PathVariable("id") String id) {
+        User user = users.findFirstById(id);
+        ArrayList<Availability> userAvailList = availabilityRepository.findAllByClaimedBy(user) ;
+        return rootSerializer.serializeMany("/users/" + id + "/availabilities",
+                userAvailList, availabilitySerializer);
+    }
+
     @RequestMapping(path = "/availabilities/{id}", method = RequestMethod.DELETE)
     public void deleteAvailability(@PathVariable("id") String id) {
         Availability deleteAvailability = availabilityRepository.findFirstById(id);

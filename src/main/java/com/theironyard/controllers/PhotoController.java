@@ -40,7 +40,7 @@ public class PhotoController {
     AmazonS3Client s3;
 
 
-    @RequestMapping(path = "/photo-posts", method = RequestMethod.GET)
+    @RequestMapping(path = "/images", method = RequestMethod.GET)
     public Map<String, Object> findAllPost() {
         Iterable<Photo> results = photos.findAll();
 
