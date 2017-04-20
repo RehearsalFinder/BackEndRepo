@@ -98,18 +98,17 @@ public class SpacesController {
 
         Authentication u = SecurityContextHolder.getContext().getAuthentication();
         User user = users.findFirstByEmail(u.getName());
-        Photo photo = new Photo();
-        photo.setUser(user);
+//        Photo photo = new Photo();
+//        photo.setUser(user);
 
         if (checkSpace == null) {
             try {
                 ArrayList<Double> coordinates = getGeocode(streetAddress, city, state, zip);
                 space.setCoordinates(coordinates);
                 space.setUser(user);
-                photo.setSpace(space);
+//                photo.setSpace(space);
 
-                space
-                        .setPhotoUrl("https://s3.amazonaws.com/" + bucket + "/" + file.getOriginalFilename());
+
 
                 try {
                     PutObjectRequest s3Req = new PutObjectRequest(
@@ -118,7 +117,9 @@ public class SpacesController {
                             file.getInputStream(),
                             new ObjectMetadata());
                     s3.putObject(s3Req);
-                    photos.save(photo);
+
+                    space
+                            .setPhotoUrl("https://s3.amazonaws.com/" + bucket + "/" + file.getOriginalFilename());
                 } catch (Exception e) {
                     e.getMessage();
                 }
