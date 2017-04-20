@@ -1,17 +1,26 @@
 package com.theironyard.controllers;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.theironyard.entities.Photo;
 import com.theironyard.entities.User;
 import com.theironyard.parsers.RootParser;
 import com.theironyard.serializers.RootSerializer;
 import com.theironyard.serializers.UserSerializer;
+import com.theironyard.services.PhotoRepository;
 import com.theironyard.services.UserRepository;
 //import com.theironyard.utilities.PasswordStorage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Map;
 
 @RestController
@@ -22,25 +31,68 @@ public class UsersController {
     UserRepository users;
 
     @Autowired
+    AmazonS3Client s3;
+
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    PhotoRepository photos;
+
+    @Value("${cloud.aws.s3.bucket}")
+    String bucket;
 
     RootSerializer rootSerializer = new RootSerializer();
     UserSerializer userSerializer = new UserSerializer();
 
-    @RequestMapping(path = "/users", method = RequestMethod.POST)
-    public Map<String, Object> create(@RequestBody RootParser<User> parser, HttpServletResponse response) {
-        User user = parser.getData().getEntity();
+    @RequestMapping(path = "/users/upload", method = RequestMethod.POST)
+    public Map<String, Object> create(@RequestParam("photo") MultipartFile file,
+                                      @RequestParam("first-name") String firstName,
+                                      @RequestParam("last-name") String lastName,
+                                      @RequestParam("email") String email,
+                                      @RequestParam("birthday") String birthday,
+                                      @RequestParam("phone") String phone,
+                                      @RequestParam("password") String password,HttpServletResponse response) {
+        User user = new User();
+        user.setEmail(email);
         String userEmail = user.getEmail();
         User user1 = users.findFirstByEmail(userEmail);
         if (user1 == null) {
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setEmail(email);
+            user.setBirthday(birthday);
+            user.setPhone(phone);
+            user.setPassword(password);
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
+            Photo photo = new Photo();
+            photo.setUser(user);
+
+                    user
+                            .setPhotoUrl("https://s3.amazonaws.com/" + bucket + "/" + file.getOriginalFilename());
+
+                    try {
+                        PutObjectRequest s3Req = new PutObjectRequest(
+                                bucket,
+                                file.getOriginalFilename(),
+                                file.getInputStream(),
+                                new ObjectMetadata());
+                        s3.putObject(s3Req);
+                        photos.save(photo);
+                    } catch (Exception e) {
+                        e.getMessage();
+                    }
+
             users.save(user);
             response.setStatus(201);
-        } else try {
+        try {
             throw new Exception("Email address is associated with an existing account!");
         } catch (Exception e) {
             e.printStackTrace();
         }
+                }
+
         return rootSerializer.serializeOne("/users", user, userSerializer);
     }
 

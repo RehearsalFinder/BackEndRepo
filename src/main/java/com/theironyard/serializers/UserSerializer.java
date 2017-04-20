@@ -23,6 +23,7 @@ public class UserSerializer extends JsonDataSerializer {
         result.put("birthday", user.getBirthday());
         result.put("email", user.getEmail());
         result.put("phone", user.getPhone());
+        result.put("photo-url", user.getPhotoUrl());
 
         return result;
     }
