@@ -39,6 +39,18 @@ public class User implements HasId{
     @Column
     private String phone;
 
+    @Column
+    @JsonProperty("photo-url")
+    private String photoUrl;
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -54,8 +66,6 @@ public class User implements HasId{
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    //    @Column
-//    public File photo;
 
     public String getId() {
         return this.id;
@@ -97,7 +107,8 @@ public class User implements HasId{
         this.birthday = birthday;
     }
 
-    public User(String firstName, String lastName, String password, String email, String birthday, String phone)
+    public User(String firstName, String lastName, String password, String email, String birthday,
+                String phone, String photoUrl)
             {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -105,20 +116,11 @@ public class User implements HasId{
         this.email = email;
         this.birthday = birthday;
         this.phone = phone;
+        this.photoUrl = photoUrl;
     }
 
     public User() {
     }
 
-//    private String getPasswordHash() {
-//        return password;
-//    }
-//
-//    public void setPassword(String password) throws PasswordStorage.CannotPerformOperationException {
-//        this.password = PasswordStorage.createHash(password);
-//    }
-//
-//    public boolean verifyPassword(String password) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
-//        return PasswordStorage.verifyPassword(password, getPasswordHash());
-//    }
+
 }
