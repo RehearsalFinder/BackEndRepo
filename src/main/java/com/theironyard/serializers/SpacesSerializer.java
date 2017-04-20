@@ -1,6 +1,7 @@
 package com.theironyard.serializers;
 
 import com.theironyard.entities.HasId;
+import com.theironyard.entities.Photo;
 import com.theironyard.entities.RehearsalSpace;
 
 import java.util.HashMap;
@@ -33,6 +34,7 @@ public class SpacesSerializer extends JsonDataSerializer {
         result.put("rules", space.getRules());
         result.put("coordinates", space.getCoordinates());
         result.put("user", space.getUser());
+        result.put("photo-url", space.getPhotoUrl());
 
         return result;
     }
