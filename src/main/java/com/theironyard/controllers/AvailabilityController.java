@@ -41,7 +41,7 @@ public class AvailabilityController {
         String email = u.getName();
         User user = users.findFirstByEmail(email);
 
-        String spacesId = parser.getData().getRelationshipId("belongs-to");
+        String spacesId = parser.getData().getRelationshipId("space");
 
         RehearsalSpace space = spaces.findFirstById(spacesId);
 
