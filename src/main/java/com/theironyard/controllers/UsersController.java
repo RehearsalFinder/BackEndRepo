@@ -52,7 +52,7 @@ public class UsersController {
                                       @RequestParam("email") String email,
                                       @RequestParam("birthday") String birthday,
                                       @RequestParam("phone") String phone,
-                                      @RequestParam("password") String password,HttpServletResponse response) {
+                                      @RequestParam("password") String password, HttpServletResponse response) {
         User user = new User();
         user.setEmail(email);
         String userEmail = user.getEmail();
@@ -69,29 +69,29 @@ public class UsersController {
             Photo photo = new Photo();
             photo.setUser(user);
 
-                    user
-                            .setPhotoUrl("https://s3.amazonaws.com/" + bucket + "/" + file.getOriginalFilename());
+            user
+                    .setPhotoUrl("https://s3.amazonaws.com/" + bucket + "/" + file.getOriginalFilename());
 
-                    try {
-                        PutObjectRequest s3Req = new PutObjectRequest(
-                                bucket,
-                                file.getOriginalFilename(),
-                                file.getInputStream(),
-                                new ObjectMetadata());
-                        s3.putObject(s3Req);
-                        photos.save(photo);
-                    } catch (Exception e) {
-                        e.getMessage();
-                    }
+            try {
+                PutObjectRequest s3Req = new PutObjectRequest(
+                        bucket,
+                        file.getOriginalFilename(),
+                        file.getInputStream(),
+                        new ObjectMetadata());
+                s3.putObject(s3Req);
+                photos.save(photo);
+            } catch (Exception e) {
+                e.getMessage();
+            }
 
             users.save(user);
             response.setStatus(201);
-        try {
-            throw new Exception("Email address is associated with an existing account!");
-        } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                throw new Exception("Email address is associated with an existing account!");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-                }
 
         return rootSerializer.serializeOne("/users", user, userSerializer);
     }
@@ -119,8 +119,8 @@ public class UsersController {
     @RequestMapping(path = "/users/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") String id, HttpServletResponse response) {
         try {
-        users.delete(id);
-        response.setStatus(201);
+            users.delete(id);
+            response.setStatus(201);
         } catch (Exception e) {
             e.getMessage();
         }
@@ -130,7 +130,7 @@ public class UsersController {
     public Map<String, Object> update(@PathVariable("id") String id, @RequestBody RootParser<User> parser) {
         User existingUserInfo = new User();
         try {
-             existingUserInfo = users.findOne(id);
+            existingUserInfo = users.findOne(id);
             User newUserInfo = parser.getData().getEntity();
             existingUserInfo.setFirstName(newUserInfo.getFirstName());
             existingUserInfo.setLastName(newUserInfo.getLastName());
