@@ -105,22 +105,6 @@ public class UsersController {
     }
 
 
-//    @RequestMapping(path = "/login", method = RequestMethod.POST)
-//    public Map<String, Object> login(@RequestBody RootParser<JsonUser> parser, HttpServletResponse response)
-//            throws Exception {
-//        JsonUser jsonUser = parser.getData().getEntity();
-//        String password = jsonUser.getPassword();
-//        String email = jsonUser.getEmail();
-//        User user = users.findFirstByEmail(email);
-//        if (user != null) {
-//            if (!user.verifyPassword(password)) {
-//                throw new Exception("Wrong credentials!");
-//            }
-//        } else throw new Exception("User account does not exist");
-//        response.setStatus(201);
-//        return rootSerializer.serializeOne("/login", user, userSerializer);
-//    }
-
     @RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
     public Map<String, Object> getUser(@PathVariable("id") String id) {
         User user = new User();
