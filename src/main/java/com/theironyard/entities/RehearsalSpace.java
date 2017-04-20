@@ -76,13 +76,18 @@ public class RehearsalSpace implements HasId{
     @ManyToOne
     private User user;
 
+    @Column
+    @JsonProperty("photo-url")
+    private String photoUrl;
+
     public RehearsalSpace() {
     }
 
     public RehearsalSpace(String name, String streetAddress, String costPerHour,
                           String squareFeet, ArrayList<String> amenities, ArrayList<String> availableEquipment,
                           String spaceHostName, String hostEmail, String hostPhone, String featured,
-                          String description, String rules, String city, String state, String zip, ArrayList<Double> coordinates) {
+                          String description, String rules, String city, String state, String zip,
+                          ArrayList<Double> coordinates, String photoUrl) {
         this.name = name;
         this.streetAddress = streetAddress;
         this.costPerHour = costPerHour;
@@ -99,6 +104,15 @@ public class RehearsalSpace implements HasId{
         this.state = state;
         this.zip = zip;
         this.coordinates = coordinates;
+        this.photoUrl = photoUrl;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public ArrayList<Double> getCoordinates() {
