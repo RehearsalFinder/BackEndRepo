@@ -58,7 +58,7 @@ public class SpacesController {
         return rootSerializer.serializeMany("/spaces", spacesList, spacesSerializer);
     }
 
-    @RequestMapping(path = "/spaces", method = RequestMethod.POST)
+    @RequestMapping(path = "/spaces/upload", method = RequestMethod.POST)
     public Map<String, Object> createSpace(@RequestParam("photo") MultipartFile file,
                                            @RequestParam("name") String name,
                                            @RequestParam("street-address") String streetAddress,
