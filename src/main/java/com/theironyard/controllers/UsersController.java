@@ -45,7 +45,7 @@ public class UsersController {
     RootSerializer rootSerializer = new RootSerializer();
     UserSerializer userSerializer = new UserSerializer();
 
-    @RequestMapping(path = "/users/upload", method = RequestMethod.POST)
+    @RequestMapping(path = "/users", method = RequestMethod.POST)
     public Map<String, Object> create(
 //            @RequestParam("photo") MultipartFile file,
                                       @RequestParam("first-name") String firstName,

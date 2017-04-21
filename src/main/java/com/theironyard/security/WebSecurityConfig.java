@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Set permissions for URLS
                 .authorizeRequests()
                 // Allow registration without being logged in
-                .antMatchers(HttpMethod.POST, "/users/upload")
+                .antMatchers(HttpMethod.POST, "/users")
                 .permitAll()
                 // Allow login without being logged in
                 .antMatchers(HttpMethod.POST, "/login")
