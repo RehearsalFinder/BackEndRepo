@@ -48,23 +48,27 @@ public class UsersController {
     @RequestMapping(path = "/users", method = RequestMethod.POST)
     public Map<String, Object> create(
 //            @RequestParam("photo") MultipartFile file,
-                                      @RequestParam("first-name") String firstName,
-                                      @RequestParam("last-name") String lastName,
-                                      @RequestParam("email") String email,
-                                      @RequestParam("birthday") String birthday,
-                                      @RequestParam("phone") String phone,
-                                      @RequestParam("password") String password, HttpServletResponse response) {
-        User user = new User();
-        user.setEmail(email);
+//                                      @RequestParam("first-name") String firstName,
+//                                      @RequestParam("last-name") String lastName,
+//                                      @RequestParam("email") String email,
+//                                      @RequestParam("birthday") String birthday,
+//                                      @RequestParam("phone") String phone,
+//                                      @RequestParam("password") String password,
+                                         HttpServletResponse response,
+                                        @RequestBody RootParser<User> parser) {
+
+            User user = parser.getData().getEntity();
+//            User user = new User();
+//        user.setEmail(email);
         String userEmail = user.getEmail();
         User user1 = users.findFirstByEmail(userEmail);
         if (user1 == null) {
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-            user.setEmail(email);
-            user.setBirthday(birthday);
-            user.setPhone(phone);
-            user.setPassword(password);
+//            user.setFirstName(firstName);
+//            user.setLastName(lastName);
+//            user.setEmail(email);
+//            user.setBirthday(birthday);
+//            user.setPhone(phone);
+//            user.setPassword(password);
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
 //            Photo photo = new Photo();
