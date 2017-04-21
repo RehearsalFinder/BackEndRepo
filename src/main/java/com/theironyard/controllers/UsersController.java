@@ -46,7 +46,8 @@ public class UsersController {
     UserSerializer userSerializer = new UserSerializer();
 
     @RequestMapping(path = "/users/upload", method = RequestMethod.POST)
-    public Map<String, Object> create(@RequestParam("photo") MultipartFile file,
+    public Map<String, Object> create(
+//            @RequestParam("photo") MultipartFile file,
                                       @RequestParam("first-name") String firstName,
                                       @RequestParam("last-name") String lastName,
                                       @RequestParam("email") String email,
@@ -66,23 +67,23 @@ public class UsersController {
             user.setPassword(password);
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-            Photo photo = new Photo();
-            photo.setUser(user);
+//            Photo photo = new Photo();
+//            photo.setUser(user);
 
-            user
-                    .setPhotoUrl("https://s3.amazonaws.com/" + bucket + "/" + file.getOriginalFilename());
-
-            try {
-                PutObjectRequest s3Req = new PutObjectRequest(
-                        bucket,
-                        file.getOriginalFilename(),
-                        file.getInputStream(),
-                        new ObjectMetadata());
-                s3.putObject(s3Req);
-                photos.save(photo);
-            } catch (Exception e) {
-                e.getMessage();
-            }
+//            user
+//                    .setPhotoUrl("https://s3.amazonaws.com/" + bucket + "/" + file.getOriginalFilename());
+//
+//            try {
+//                PutObjectRequest s3Req = new PutObjectRequest(
+//                        bucket,
+//                        file.getOriginalFilename(),
+//                        file.getInputStream(),
+//                        new ObjectMetadata());
+//                s3.putObject(s3Req);
+//                photos.save(photo);
+//            } catch (Exception e) {
+//                e.getMessage();
+//            }
 
             users.save(user);
             response.setStatus(201);
